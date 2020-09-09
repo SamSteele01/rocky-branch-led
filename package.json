@@ -1,0 +1,43 @@
+{
+  "name": "rocky branch led",
+  "version": "0.1.0",
+  "description": "Library to link multiple Raspberry Pis and control multiple LED strips",
+  "main": "",
+  "typings": "",
+  "scripts": {
+    "build": "tsc src/*.ts",
+    "start": "node dist/main.js",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamSteele01/rocky-branch-led.git"
+  },
+  "keywords": [
+    "adafruit",
+    "bluetooth",
+    "dotstar",
+    "led",
+    "raspberry pi",
+    "spi",
+    "strip"
+  ],
+  "author": "Sam Steele",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SamSteele01/rocky-branch-led/issues"
+  },
+  "homepage": "https://github.com/SamSteele01/rocky-branch-led#readme",
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "@types/node": "^13.1.2",
+    "mcp-spi-adc": "^3.0.0",
+    "pi-spi": "^1.2.1",
+    "raspi-board": "^7.3.0",
+    "rpio": "^1.3.0",
+    "spi-device": "^3.0.0",
+    "spi-node": "^2.0.3"
+  }
+}
