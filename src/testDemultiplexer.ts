@@ -3,8 +3,8 @@ const rpio = require('rpio');
 
 // initialize rpio
 // rpio.init({close_on_exit: false});
-rpio.open(29, rpio.OUTPUT, 'LOW');
-rpio.open(31, rpio.OUTPUT, 'LOW');
+rpio.open(29, rpio.OUTPUT, 0);
+rpio.open(31, rpio.OUTPUT, 0);
 
 let channels: LedStrip[] = [];
 // GPIO_5 = pin 29, GPIO_6 = pin 31
@@ -16,7 +16,14 @@ channels[2] = new LedStrip(20, { channel: 2, pinA: 5 , pinB: 6 })
 function createChannelClock(millisecondsPerFrame: number) {
   let writeChannel = 0
   return setInterval(() => {
+    switch (writeChannel) {
+      case 0:
+        
+        break;
     
+      default:
+        break;
+    }
     channels[writeChannel].all(0, 0, 200, 1);
     channels[writeChannel].sync();
     
