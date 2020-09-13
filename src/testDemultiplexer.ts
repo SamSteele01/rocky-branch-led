@@ -8,9 +8,9 @@ rpio.open(31, rpio.OUTPUT, 0);
 
 let channels: LedStrip[] = [];
 // GPIO_5 = pin 29, GPIO_6 = pin 31
-channels[0] = new LedStrip(20, { channel: 0, pinA: 5 , pinB: 6 })
-channels[1] = new LedStrip(20, { channel: 1, pinA: 5 , pinB: 6 })
-channels[2] = new LedStrip(20, { channel: 2, pinA: 5 , pinB: 6 })
+channels[0] = new LedStrip(20, { channel: 0, pinA: 29 , pinB: 31 })
+channels[1] = new LedStrip(20, { channel: 1, pinA: 29 , pinB: 31 })
+channels[2] = new LedStrip(20, { channel: 2, pinA: 29 , pinB: 31 })
 
 // create "clock" to write to each channel, staggered
 function createChannelClock(millisecondsPerFrame: number) {

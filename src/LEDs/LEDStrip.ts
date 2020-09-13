@@ -30,15 +30,15 @@ export interface DeMultiPlexer {
 /* extend Dotstar to take demultiplexer channel and pins to use */
 export default class LEDStrip extends dotstar.Dotstar {
   config: {
-    onA: string; 
+    onA: number; 
     // offA: string;
-    onB: string; 
+    onB: number; 
     // offB: string;
   };
   pinA: number;
   pinB: number;
   length: number;
-  
+  channel: number; 
   // constructor(ledStripLength: number, channel: number, pinA: number, pinB: number) {
   constructor(ledStripLength: number, demultiplexer: DeMultiPlexer) {
 
@@ -46,6 +46,7 @@ export default class LEDStrip extends dotstar.Dotstar {
     super(pispi00, options);
     
     this.length = ledStripLength;
+    this.channel = demultiplexer.channel;
     this.config = {
       /* on = HIGH if channel is 1 or 3 */
       onA: demultiplexer.channel % 2 ? 1 : 0,
@@ -64,7 +65,10 @@ export default class LEDStrip extends dotstar.Dotstar {
   sync() {
     rpio.write(this.pinA, this.config.onA);
     rpio.write(this.pinB, this.config.onB);
-    // delay 20 ns
+    console.log(`Attempting to write to channel ${this.channel}`);
+  // console.log(`Attempting to write to pinA: ${this.pinA}`);
+  // console.log(`Attempting to write to pinB: ${this.pinB}`);
+ // delay 20 ns
     setTimeout(() => {
       super.sync();
     }, 0.00002);
