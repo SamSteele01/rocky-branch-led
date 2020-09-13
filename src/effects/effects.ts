@@ -54,5 +54,5 @@ export function rainbowWheel(length: number, offset: number = 0): Array<Ipixel> 
 export function pulse(): Array<Ipixel> {
   let array: Ipixel[] = [];
   
-  
+  return array;
 }

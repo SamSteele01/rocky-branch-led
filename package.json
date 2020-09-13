@@ -1,11 +1,11 @@
 {
-  "name": "rocky branch led",
+  "name": "rocky_branch_led",
   "version": "0.1.0",
   "description": "Library to link multiple Raspberry Pis and control multiple LED strips",
   "main": "",
   "typings": "",
   "scripts": {
-    "build": "tsc src/*.ts",
+    "build": "rm -rf dist && tsc",
     "start": "node dist/main.js",
     "test": ""
   },

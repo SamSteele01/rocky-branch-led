@@ -11,7 +11,7 @@ const rpio = require('rpio');
 
 /* device SPI access */
 /* there are 2 options; might as well get them both */
-import { spi } from 'spi-node' // C++ N-API addon
+// import { spi } from 'spi-node' // C++ N-API addon
 // const SPI_NODE = require('spi-node');
 
 // import PI_SPI from 'pi-spi'  // needs type definitions

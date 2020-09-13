@@ -7,7 +7,7 @@ export class EffectsLoader {
   effect: () => void;
   count: number;
   
-  constructor(...stripBuffers) {
+  constructor() {
     // should be 4 stripBuffers: edgeLitNorth, edgeLitSouth, infinityMirrorNE, infinityMirrorSW
     // maybe concat stripBuffers to create fixtureArray ??
   }
@@ -19,7 +19,7 @@ export class EffectsLoader {
     this.effect = effect;
   }
   
-  apply(...inputs) {
+  apply() {
     
   }
   

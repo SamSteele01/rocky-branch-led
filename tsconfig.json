@@ -4,8 +4,11 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "declaration": true,
-        "outDir": "dist"
+        "outDir": "./dist"
     },
+    "include": [
+      "src/**/*"
+    ],
     "exclude": [
         "node_modules",
         "typings/browser",
