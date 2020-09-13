@@ -49,7 +49,7 @@ This will not work with the CH pins and instead we have to use GPIO pins and man
 ### Analog
 
 We are also using an [MCP3004](http://ww1.microchip.com/downloads/en/devicedoc/21295c.pdf) analog-to-digital chip. It takes 4 analog inputs and stores them in a buffer. The digital side uses an SPI protocol.
-> * 200 ksps max. sampling rate at VDD = 5V ()
+> * 200 ksps max. sampling rate at VDD = 5V
 > * 3.6 MHz clock speed for 5V 
 > * 10 kHz is the minimum clock speed to not lose data
 > * CS line has to be LOW to read data.
