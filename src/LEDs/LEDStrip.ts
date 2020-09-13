@@ -62,9 +62,12 @@ export default class LEDStrip extends dotstar.Dotstar {
   /* override sync function that writes out to the MOSI */
   /* we need to do this to make sure that the instance of LEDStrip is talking to the correct LEDs */
   sync() {
-    rpio.open(this.pinA, rpio.OUTPUT, rpio[this.config.onA]);
-    rpio.open(this.pinB, rpio.OUTPUT, rpio[this.config.onB]);
-    super.sync();
+    rpio.write(this.pinA, rpio[this.config.onA]);
+    rpio.write(this.pinB, rpio[this.config.onB]);
+    // delay 20 ns
+    setTimeout(() => {
+      super.sync();
+    }, 0.00002);
     // could pick one channel as the OFF channel and set back to it here, 
     // but is is probably not necessary and faster not to do so.
   }
