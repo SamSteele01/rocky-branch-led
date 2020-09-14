@@ -6,13 +6,7 @@
 import * as dotstar from './dotstar'
 
 /* board GPIO access */
-// import rpio from 'rpio' // needs type definitions
-const rpio = require('rpio');
-
-/* device SPI access */
-/* there are 2 options; might as well get them both */
-// import { spi } from 'spi-node' // C++ N-API addon
-// const SPI_NODE = require('spi-node');
+import * as rpio from 'rpio'
 
 /* channel will be different for each LED strip. pinA and pinB will be the same for all. */
 export interface DeMultiPlexer {
@@ -60,9 +54,8 @@ export default class LEDStrip extends dotstar.Dotstar {
     rpio.write(this.pinA, this.config.onA);
     rpio.write(this.pinB, this.config.onB);
     console.log(`Attempting to write to channel ${this.channel}`);
-  // console.log(`Attempting to write to pinA: ${this.pinA}`);
-  // console.log(`Attempting to write to pinB: ${this.pinB}`);
- // delay 20 ns
+
+    // delay 20 ns
     setTimeout(() => {
       super.sync();
     }, 0.00002);

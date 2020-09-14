@@ -1,4 +1,4 @@
-import LedStrip from "./LEDs/LEDStrip"
+import LedStrip from "../LEDs/LEDStrip"
 const rpio = require('rpio');
 const PiSPI = require('pi-spi');
 
