@@ -14,12 +14,6 @@ const rpio = require('rpio');
 // import { spi } from 'spi-node' // C++ N-API addon
 // const SPI_NODE = require('spi-node');
 
-// import PI_SPI from 'pi-spi'  // needs type definitions
-const PiSPI = require('pi-spi');
-
-/* connect SPI 0 to the demultiplexer. CS doesn't matter */
-let pispi00 = PiSPI.initialize('/dev/spidev0.0');
-
 /* channel will be different for each LED strip. pinA and pinB will be the same for all. */
 export interface DeMultiPlexer {
   channel: number;
@@ -30,9 +24,9 @@ export interface DeMultiPlexer {
 /* extend Dotstar to take demultiplexer channel and pins to use */
 export default class LEDStrip extends dotstar.Dotstar {
   config: {
-    onA: string; 
+    onA: number; 
     // offA: string;
-    onB: string; 
+    onB: number; 
     // offB: string;
   };
   pinA: number;
@@ -40,10 +34,10 @@ export default class LEDStrip extends dotstar.Dotstar {
   length: number;
   
   // constructor(ledStripLength: number, channel: number, pinA: number, pinB: number) {
-  constructor(ledStripLength: number, demultiplexer: DeMultiPlexer) {
+  constructor(pispi: dotstar.ISpi, ledStripLength: number, demultiplexer: DeMultiPlexer) {
 
     const options: dotstar.IDotstarOptions = { length: ledStripLength };
-    super(pispi00, options);
+    super(pispi, options);
     
     this.length = ledStripLength;
     this.config = {

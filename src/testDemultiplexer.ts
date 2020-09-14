@@ -1,33 +1,38 @@
 import LedStrip from "./LEDs/LEDStrip"
 const rpio = require('rpio');
+const PiSPI = require('pi-spi');
+
+/* connect SPI 0 to the demultiplexer. CS doesn't matter */
+let pispi00 = PiSPI.initialize('/dev/spidev0.0');
 
 // initialize rpio
 // rpio.init({close_on_exit: false});
-rpio.open(29, rpio.OUTPUT, 0);
-rpio.open(31, rpio.OUTPUT, 0);
+rpio.open(31, rpio.OUTPUT, rpio.LOW);
+rpio.open(32, rpio.OUTPUT, rpio.LOW);
 
 let channels: LedStrip[] = [];
 // GPIO_5 = pin 29, GPIO_6 = pin 31
-channels[0] = new LedStrip(20, { channel: 0, pinA: 5 , pinB: 6 })
-channels[1] = new LedStrip(20, { channel: 1, pinA: 5 , pinB: 6 })
-channels[2] = new LedStrip(20, { channel: 2, pinA: 5 , pinB: 6 })
+channels[0] = new LedStrip(pispi00, 20, { channel: 1, pinA: 31 , pinB: 32 })
+channels[1] = new LedStrip(pispi00, 20, { channel: 2, pinA: 31 , pinB: 32 })
+channels[2] = new LedStrip(pispi00, 20, { channel: 3, pinA: 31 , pinB: 32 })
+channels[3] = new LedStrip(pispi00, 20, { channel: 4, pinA: 31 , pinB: 32 })
 
 // create "clock" to write to each channel, staggered
 function createChannelClock(millisecondsPerFrame: number) {
   let writeChannel = 0
   return setInterval(() => {
-    switch (writeChannel) {
-      case 0:
-        
-        break;
-    
-      default:
-        break;
-    }
+    // switch (writeChannel) {
+    //   case 0:
+    // 
+    //     break;
+    // 
+    //   default:
+    //     break;
+    // }
     channels[writeChannel].all(0, 0, 200, 1);
     channels[writeChannel].sync();
     
-    if (writeChannel >= 2) {
+    if (writeChannel >= 3) {
       writeChannel = 0;
     } else {
       writeChannel += 1;

@@ -22,7 +22,7 @@ if (isMainThread) {
     console.log('message from sensors:', value);
   });
   
-  // const ledStripOutputs = new Worker('./LEDs/main', { workerData: 'Worker Data 2' });
+  // const ledStripOutputs = new Worker('./LEDs/testWorkerThread.js', { workerData: 'Worker Data 2' });
   // ledStripOutputs.once('message', message => console.log(message));
   
 }
