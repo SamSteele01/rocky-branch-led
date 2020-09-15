@@ -1,9 +1,12 @@
 import LedStrip from "../LEDs/LEDStrip"
-const rpio = require('rpio');
-const PiSPI = require('pi-spi');
+import rpio = require('rpio');
+import { SPI, Mode, Order } from 'spi-node'
 
 /* connect SPI 0 to the demultiplexer. CS doesn't matter */
-let pispi00 = PiSPI.initialize('/dev/spidev0.0');
+const spi = SPI.fromDevicePath('/dev/spidev0.0')
+  .setMode(Mode.M0)
+  .setOrder(Order.MSB_FIRST)
+  .setSpeed(1e7)
 
 // initialize rpio
 // rpio.init({close_on_exit: false});
