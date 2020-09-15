@@ -14,25 +14,32 @@ rpio.open(31, rpio.OUTPUT, rpio.LOW);
 rpio.open(32, rpio.OUTPUT, rpio.LOW);
 
 let channels: LedStrip[] = [];
-// GPIO_5 = pin 29, GPIO_6 = pin 31
-channels[0] = new LedStrip(pispi00, 20, { channel: 1, pinA: 31 , pinB: 32 })
-channels[1] = new LedStrip(pispi00, 20, { channel: 2, pinA: 31 , pinB: 32 })
-channels[2] = new LedStrip(pispi00, 20, { channel: 3, pinA: 31 , pinB: 32 })
-channels[3] = new LedStrip(pispi00, 20, { channel: 4, pinA: 31 , pinB: 32 })
+// GPIO_5 = pin 29, GPIO_6 = pin 31 GPIO_12 = pin 32
+channels[0] = new LedStrip(spi, 20, { channel: 0, pinA: 31 , pinB: 32 })
+channels[1] = new LedStrip(spi, 20, { channel: 1, pinA: 31 , pinB: 32 })
+channels[2] = new LedStrip(spi, 20, { channel: 2, pinA: 31 , pinB: 32 })
+channels[3] = new LedStrip(spi, 20, { channel: 3, pinA: 31 , pinB: 32 })
 
 // create "clock" to write to each channel, staggered
 function createChannelClock(millisecondsPerFrame: number) {
   let writeChannel = 0
   return setInterval(() => {
-    // switch (writeChannel) {
-    //   case 0:
-    // 
-    //     break;
-    // 
-    //   default:
-    //     break;
-    // }
-    channels[writeChannel].all(0, 0, 200, 1);
+    switch (writeChannel) {
+      case 0:
+        channels[writeChannel].all(0, 0, 200, 1);
+        break;
+      case 1:
+        channels[writeChannel].all(0, 200, 0, 1);
+        break;
+      case 2:
+        channels[writeChannel].all(200, 0, 0, 1);
+        break;
+      case 3:
+        channels[writeChannel].all(150, 150, 150, 1);
+        break;
+      default:
+        break;
+    }
     channels[writeChannel].sync();
     
     if (writeChannel >= 3) {

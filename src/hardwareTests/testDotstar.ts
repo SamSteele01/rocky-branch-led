@@ -12,8 +12,15 @@ const testStrip = new dotstar.Dotstar(spi, { length: 40 })
 testStrip.all(0, 0, 200, 0.5)
 testStrip.sync()
 
+const interval = setInterval(() => {
+  console.log("running...");
+  testStrip.all(0, 0, 200, 0.5)
+  testStrip.sync()
+}, 1000)
+
 process.on("SIGINT", () => {
   testStrip.all(0, 0, 0, 0)
   testStrip.sync()
   spi.close()
+  clearInterval(interval)
 })
