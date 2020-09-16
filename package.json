@@ -7,6 +7,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "start": "node dist/main.js",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": ""
   },
   "repository": {
@@ -29,6 +30,12 @@
   },
   "homepage": "https://github.com/SamSteele01/rocky-branch-led#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
     "typescript": "^4.0.2"
   },
   "dependencies": {
