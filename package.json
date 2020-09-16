@@ -7,6 +7,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "start": "node dist/main.js",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": ""
   },
   "repository": {
@@ -33,10 +34,16 @@
     "@types/noble": "0.0.40",
     "@types/node": "^13.1.2",
     "@types/rpio": "0.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
     "typescript": "^4.0.2"
   },
   "dependencies": {
-    "@abandonware/bleno": "^0.5.0",
+    "@abandonware/bleno": "^0.5.1-2",
     "@abandonware/noble": "^1.9.2-10",
     "mcp-spi-adc": "^3.0.0",
     "rpio": "^1.3.0",
