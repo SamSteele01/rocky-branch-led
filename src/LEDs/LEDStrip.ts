@@ -1,55 +1,41 @@
 /**
-  
+  Extend the Dotstar class to have multiple instances used with a demultiplexer chip, in this case
+  4 channels
 */
 
 /* connection to the LEDs */
 import * as dotstar from './dotstar'
 
 /* board GPIO access */
-// import rpio from 'rpio' // needs type definitions
-const rpio = require('rpio');
-
-/* device SPI access */
-/* there are 2 options; might as well get them both */
-// import { spi } from 'spi-node' // C++ N-API addon
-// const SPI_NODE = require('spi-node');
+import * as rpio from 'rpio'
 
 /* channel will be different for each LED strip. pinA and pinB will be the same for all. */
 export interface DeMultiPlexer {
-  channel: number;
+  channel: number; // 0 - 3
   pinA: number;
   pinB: number;
 }
 
 /* extend Dotstar to take demultiplexer channel and pins to use */
 export default class LEDStrip extends dotstar.Dotstar {
-  config: {
-    onA: number; 
-    // offA: string;
-    onB: number; 
-    // offB: string;
-  };
+  outputA: number; 
+  outputB: number; 
   pinA: number;
   pinB: number;
   length: number;
   channel: number; 
-  // constructor(ledStripLength: number, channel: number, pinA: number, pinB: number) {
-  constructor(pispi: dotstar.ISpi, ledStripLength: number, demultiplexer: DeMultiPlexer) {
+
+  constructor(spi: dotstar.ISpi, ledStripLength: number, demultiplexer: DeMultiPlexer) {
 
     const options: dotstar.IDotstarOptions = { length: ledStripLength };
-    super(pispi, options);
+    super(spi, options);
     
     this.length = ledStripLength;
     this.channel = demultiplexer.channel;
-    this.config = {
-      /* on = HIGH if channel is 1 or 3 */
-      onA: demultiplexer.channel % 2 ? 1 : 0,
-      // offA: demultiplexer.channel % 2 ? 'LOW' : 'HIGH',
-      
-      /* on = HIGH if channel is 3 or 4 */
-      onB: demultiplexer.channel > 2 ? 1 : 0,
-      // offB: demultiplexer.channel > 2 ? 'LOW' : 'HIGH',
-    }
+    /* on = HIGH if channel is 1 or 3 */
+    this.outputA = demultiplexer.channel % 2 ? rpio.HIGH : rpio.LOW,      
+    /* on = HIGH if channel is 2 or 3 */
+    this.outputB = demultiplexer.channel > 1 ? rpio.HIGH : rpio.LOW,
     this.pinA = demultiplexer.pinA;
     this.pinB = demultiplexer.pinB;
   }
@@ -57,17 +43,15 @@ export default class LEDStrip extends dotstar.Dotstar {
   /* override sync function that writes out to the MOSI */
   /* we need to do this to make sure that the instance of LEDStrip is talking to the correct LEDs */
   sync() {
-    rpio.write(this.pinA, this.config.onA);
-    rpio.write(this.pinB, this.config.onB);
+    rpio.write(this.pinA, this.outputA);
+    rpio.write(this.pinB, this.outputB);
     console.log(`Attempting to write to channel ${this.channel}`);
-  // console.log(`Attempting to write to pinA: ${this.pinA}`);
-  // console.log(`Attempting to write to pinB: ${this.pinB}`);
- // delay 20 ns
+
+    // delay 20 ns. This is to allow the demultiplexer chip to change channels.
+    // NOTE: there may be other delays in the hardware to take into account. 
     setTimeout(() => {
       super.sync();
     }, 0.00002);
-    // could pick one channel as the OFF channel and set back to it here, 
-    // but is is probably not necessary and faster not to do so.
   }
   
 }

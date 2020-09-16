@@ -25,7 +25,7 @@ export class Dotstar {
     this.length = options.length || Dotstar.defaultOptions.length;
     
     const fullBufferLength = Dotstar.startBytesLength + this.length * Dotstar.bytesPerLed + Dotstar.endBytesLength;
-    this.ledBuffer = new Buffer(fullBufferLength);
+    this.ledBuffer = Buffer.alloc(fullBufferLength);
     this.ledBuffer.fill(0);
     this.ledBuffer.fill(255, this.ledBuffer.length - Dotstar.endBytesLength);
     
@@ -33,7 +33,7 @@ export class Dotstar {
     this.colorBuffer = this.ledBuffer.slice(Dotstar.startBytesLength, -Dotstar.endBytesLength);
     this.clear();
     
-    this.offBuffer = new Buffer(fullBufferLength);
+    this.offBuffer = Buffer.alloc(fullBufferLength);
     this.ledBuffer.copy(this.offBuffer);
     
     this.device = spi;

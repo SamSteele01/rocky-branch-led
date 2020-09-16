@@ -4,7 +4,7 @@ const { Worker, MessageChannel, workerData, isMainThread, parentPort } = require
 if (isMainThread) {
   console.log(`Main process: ${process.pid}`);
   
-  const bluetoothWorker = new Worker('./bluetooth/bluetooth.js');
+  const bluetoothWorker = new Worker('./bluetooth/bleTestWorker.js');
   bluetoothWorker.on('online', () => console.log(`Bluetooth process: ${bluetoothWorker.threadId}`));
   const bluetoothChannel = new MessageChannel();
   bluetoothWorker.postMessage({ hereIsYourPort: bluetoothChannel.port1 }, [bluetoothChannel.port1]);
