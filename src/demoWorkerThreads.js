@@ -10,7 +10,7 @@ const {
 if (isMainThread) {
   console.log(`Main process: ${process.pid}`)
 
-  const bluetoothWorker = new Worker('./bluetooth/bluetooth.js')
+  const bluetoothWorker = new Worker('./bluetooth/bleTestWorker.js')
   bluetoothWorker.on('online', () =>
     console.log(`Bluetooth process: ${bluetoothWorker.threadId}`)
   )
