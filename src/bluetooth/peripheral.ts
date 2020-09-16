@@ -1,5 +1,7 @@
 const bleno = require('bleno');
 
+var PrimaryService = bleno.PrimaryService;
+
 // state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 //
 // bleno.on('stateChange', callback(state));
@@ -24,7 +26,10 @@ const bleno = require('bleno');
 // bleno.on('rssiUpdate', callback(rssi)); // not available on OS X 10.9
 
 var name = "rb-0"; //uuid- rb-0 through rb-5 for each pi
-var serviceUuids = ["ca039092-a517-4c2b-90b5-0976fc2e8726"]; //UUID generated from guidgenerator.com
+//UUID generated from guidgenerator.com
+// unsure if we are using a pre-defined UUID or generating one ourselves
+// eventually will be in process.env
+var serviceUuids = ["ca039092-a517-4c2b-90b5-0976fc2e8726"];
 
 // state must be poweredOn to start advertising
 bleno.on('stateChange', (state) => {
@@ -32,6 +37,14 @@ bleno.on('stateChange', (state) => {
 
   if(state === 'poweredOn') {
     bleno.startAdvertising(name, serviceUUids[, (error) => if(error) console.log(error)]);
-    
+
   }
+});
+
+
+
+
+var PrimaryService = new PrimaryService({
+  uuid: serviceUUids[0],
+
 })
