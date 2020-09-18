@@ -1,5 +1,10 @@
 var bleno = require('bleno');
 
+const DistanceCharacteristic = require("./bluetooth/DistanceCharacteristic");
+const MotionCharacteristic = require("./bluetooth/MotionCharacteristic");
+const AmbientLightCharacteristic = require("./bluetooth/AmbientLightCharacteristic");
+
+
 var PrimaryService = bleno.PrimaryService;
 
 // function SensorService(name) {
@@ -18,10 +23,28 @@ var PrimaryService = bleno.PrimaryService;
 // }
 
 class SensorService extends PrimaryService {
-  constructor(uuid) {
+  constructor(uuid, name) {
     super();
     this.uuid = uuid;
-    this.characteristics = characteristics;
+    switch (name) {
+      case "rb-0":
+      case "rb-5":
+        this.characteristics = [
+          new DistanceCharacteristic(),
+          new AmbientLightCharacteristic(),
+          new MotionCharacteristic()
+        ];
+        break;
+      case "rb-1":
+      case "rb-2":
+      case "rb-4":
+        this.characteristics = [
+          new MotionCharacteristic()
+        ];
+        break;
+      default:
+        console.log("Unexpected Error")
+    }
   }
 }
 

@@ -1,13 +1,25 @@
 var bleno = require('bleno');
 
-var AmbientLightCharacteristic = new bleno.Characteristic({
-  uuid: 'fffffffffffffffffffffffffffffff0',
-  properties: ["read", "subscribe", "notify"],
-  value: Buffer.alloc(1),
-  onSubscribe: ambLightOnSubscribe,
-  onNotify: ambLightOnNotify,
-  onReadRequest: ambLightOnReadRequest
-})
+// var AmbientLightCharacteristic = new bleno.Characteristic({
+//   uuid: 'fffffffffffffffffffffffffffffff0',
+//   properties: ["read", "subscribe", "notify"],
+//   value: Buffer.alloc(1),
+//   onSubscribe: ambLightOnSubscribe,
+//   onNotify: ambLightOnNotify,
+//   onReadRequest: ambLightOnReadRequest
+// })
+
+class AmbientLightCharacteristic extends bleno.Characteristic {
+  constructor(uuid) {
+    super();
+    this.uuid = uuid;
+    this.properties = ["read", "subscribe", "notify"];
+    this.value = Buffer.alloc(1);
+    this.onSubscribe = ambLightOnSubscribe;
+    this.onNotify = ambLightOnNotify;
+    this.onReadRequest = ambLightOnReadRequest;
+  }
+}
 
 function ambLightOnSubscribe(maxValueSize, updateValueCallback) {
   console.log("subscribed to ambient light characteristic");
