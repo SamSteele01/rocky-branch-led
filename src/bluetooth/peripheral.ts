@@ -34,13 +34,18 @@ var name = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 var serviceUuids = ["fffffffffffffffffffffffffffffff0"];
 //define characteristics and then add to services
 // export const testService
-//export characteristics 
+//export characteristics
 const testService = new PrimaryService({
     uuid: 'fffffffffffffffffffffffffffffff0', // should get as env.var
     characteristics: [
         // see Characteristic for data type
     ]
 });
+
+
+// rb-0 - distance, ambient light, motion
+// rb-1 - rb-4 - motion
+// rb-5 - distance, ambient light, motion
 
 // state must be poweredOn to start advertising
 bleno.on('stateChange', (state: String) => {
