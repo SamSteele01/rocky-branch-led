@@ -9,10 +9,14 @@ noble.on('stateChange', async (state: String) => {
   if (state === 'poweredOn')
     //should I use startScanningAsync or startScanning?
     noble.startScanning(serviceUUIDs, allowDuplicates[, (error: any) => {
-      if (error) console.log(error)]);
+      if (error) {
+        console.log(error);
+      }
+
     }
+    ]);
 }
-});
+
 
 noble.on('discover', (peripheral: object) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
