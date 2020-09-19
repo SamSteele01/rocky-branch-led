@@ -76,7 +76,7 @@ bleno.on('accept', (clientAddress: String) => {
   //stop advertising? (is automatic?)
 })
 
-bleno.on('disonnect', (clientAddress: String) => {
+bleno.on('disconnect', (clientAddress: String) => {
   console.log(`clientAddress ${clientAddress} disconnected`);
   //try to reconnect
 })
