@@ -8,7 +8,7 @@ var allowDuplicates = false;
 noble.on('stateChange', async (state: String) => {
   if (state === 'poweredOn') {
     //should I use startScanningAsync or startScanning?
-    noble.startScanning(serviceUUIDs, allowDuplicates[, (error: any) => {
+    noble.startScanning(serviceUUIDs, allowDuplicates[null, (error: any) => {
       if (error) {
         console.log(error);
       }

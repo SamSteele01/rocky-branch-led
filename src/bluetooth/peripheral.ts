@@ -52,7 +52,7 @@ bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(name, serviceUUids[, (err: any) => {
+    bleno.startAdvertising(name, serviceUUids[null, (err: any) => {
       if (err) {
         console.log(err);
       } else {
