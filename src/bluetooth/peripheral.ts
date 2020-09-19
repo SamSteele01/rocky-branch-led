@@ -36,10 +36,10 @@ var serviceUuids = ["fffffffffffffffffffffffffffffff0"];
 // export const testService
 //export characteristics
 const testService = new PrimaryService({
-    uuid: 'fffffffffffffffffffffffffffffff0', // should get as env.var
-    characteristics: [
-        // see Characteristic for data type
-    ]
+  uuid: 'fffffffffffffffffffffffffffffff0', // should get as env.var
+  characteristics: [
+    // see Characteristic for data type
+  ]
 });
 
 
@@ -51,16 +51,19 @@ const testService = new PrimaryService({
 bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
-  if(state === 'poweredOn') {
-    bleno.startAdvertising(name, serviceUUids[, (err: any) => if(err) console.log(err)]);
-
-  } else {
-    bleno.stopAdvertising();
+  if (state === 'poweredOn') {
+    bleno.startAdvertising(name, serviceUUids[, (err: any) => {
+      if (err) {
+        console.log(err);
+      } else {
+        bleno.stopAdvertising();
+      }
+    }]);
   }
 });
 
 bleno.on('advertisingStart', (err: any) => {
-  if(err) {
+  if (err) {
     console.log(err);
   } else {
     console.log('advertising...');
