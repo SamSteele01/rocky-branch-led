@@ -11,3 +11,11 @@ Each lighting fixture has one infinity mirror, which has 576 LEDs or a few less;
 ## [Bluetooth](./docs/bluetooth.md)
 
 ## [Effects](./docs/effects.md)
+
+### TODO:
+
+contributing
+
+code of conduct
+
+architecture
