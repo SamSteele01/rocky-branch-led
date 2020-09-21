@@ -27,7 +27,7 @@ var PrimaryService = bleno.PrimaryService;
 //
 // bleno.on('rssiUpdate', callback(rssi)); // not available on OS X 10.9
 
-var name = "rb-0"; //uuid- rb-0 through rb-5 for each pi
+var piName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 //UUID generated from guidgenerator.com
 // unsure if we are using a pre-defined UUID or generating one ourselves
 // eventually will be in process.env?
@@ -52,7 +52,7 @@ bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(name, serviceUUids[null, (err: any) => {
+    bleno.startAdvertising(piName, serviceUUids[, (err: any) => {
       if (err) {
         console.log(err);
       } else {
