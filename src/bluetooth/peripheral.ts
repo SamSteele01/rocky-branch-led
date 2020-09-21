@@ -29,16 +29,16 @@ var PrimaryService = bleno.PrimaryService;
 //
 // bleno.on('rssiUpdate', callback(rssi)); // not available on OS X 10.9
 
-var piName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
+var serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 //UUID generated from guidgenerator.com
 // unsure if we are using a pre-defined UUID or generating one ourselves
 // eventually will be in process.env?
-var serviceUuids = ["fffffffffffffffffffffffffffffff0"];
+// var serviceUuids = ["fffffffffffffffffffffffffffffff0"];
 //define characteristics and then add to services
 // export const testService
 //export characteristics
 const testService = new PrimaryService({
-  uuid: 'fffffffffffffffffffffffffffffff0', // should get as env.var
+  uuid: 'e6a3e7ac-6050-43a4-9e94-5af9c81ed6c3', // should get as env.var
   characteristics: [
     // see Characteristic for data type
   ]
@@ -48,6 +48,18 @@ var errorCallBack = function(err: any) {
   if(err) {
     console.log(err);
   }
+}
+
+var shouldPrint = false;
+
+function broadcast(message: String) {
+  shouldPrint = true;
+  var broadcastInterval = setInterval(() => {
+    if(!shouldPrint) {
+      clearInterval(broadcastInterval);
+    }
+    console.log(`${message}\n`);
+  }, 10000);
 }
 
 
@@ -60,7 +72,7 @@ bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(piName, testService.uuid, function(err: any) {
+    bleno.startAdvertising(serviceName, testService.uuid, function(err: any) {
       if(err) {
         console.log(err);
       }
