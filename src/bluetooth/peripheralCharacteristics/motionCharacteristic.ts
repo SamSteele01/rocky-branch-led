@@ -5,7 +5,7 @@ var MotionCharacteristic = new bleno.Characteristic({
   properties: ["read", "subscribe", "notify"],
   // secure: []     - do we need security?
   //value is buffer?  Where is this assigned?
-  value: Buffer.alloc(1)
+  value: Buffer.alloc(1) 
   // onSubscribe: motionOnSubscribe,
   // onNotify: motionOnNotify,
   // onReadRequest: motionOnReadRequest
