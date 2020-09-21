@@ -59,7 +59,11 @@ function broadcast(message: String) {
       clearInterval(broadcastInterval);
     }
     console.log(`${message}\n`);
-  }, 10000);
+  }, 1000);
+}
+
+function stopBroadcast() {
+  shouldPrint = false;
 }
 
 
@@ -86,7 +90,7 @@ bleno.on('advertisingStart', (err: any) => {
   if (err) {
     console.log(err);
   } else {
-    console.log('advertising...');
+    broadcast("advertising " + serviceName);
     bleno.setServices([
       testService
     ])
@@ -95,6 +99,8 @@ bleno.on('advertisingStart', (err: any) => {
 
 bleno.on('accept', (clientAddress: String) => {
   console.log(`clientAddress ${clientAddress} accepted`);
+  stopBroadcast();
+  console.log("accepted");
 
   //stop advertising? (is automatic?)
 })
