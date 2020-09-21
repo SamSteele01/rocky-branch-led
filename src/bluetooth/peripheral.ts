@@ -91,3 +91,5 @@ bleno.on('disconnect', (clientAddress: String) => {
   console.log(`clientAddress ${clientAddress} disconnected`);
   //try to reconnect
 })
+
+module.exports = bleno;

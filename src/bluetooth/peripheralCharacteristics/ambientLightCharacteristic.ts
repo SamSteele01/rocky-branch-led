@@ -1,4 +1,4 @@
-var bleno = require('bleno');
+var bleno = require('../peripherals.ts');
 
 // var AmbientLightCharacteristic = new bleno.Characteristic({
 //   uuid: 'fffffffffffffffffffffffffffffff0',
