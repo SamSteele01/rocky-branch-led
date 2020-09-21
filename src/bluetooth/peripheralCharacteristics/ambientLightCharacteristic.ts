@@ -10,7 +10,7 @@ var bleno = require('../peripherals.ts');
 // })
 
 class AmbientLightCharacteristic extends bleno.Characteristic {
-  constructor(uuid) {
+  constructor(uuid: string) {
     super();
     this.uuid = uuid;
     this.properties = ["read", "subscribe", "notify"];
