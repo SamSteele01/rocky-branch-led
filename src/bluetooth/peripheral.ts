@@ -1,4 +1,6 @@
-const bleno = require('bleno');
+var Bleno = require('bleno');
+
+var bleno = new Bleno();
 
 
 //constructor, then create 'new'
@@ -42,6 +44,12 @@ const testService = new PrimaryService({
   ]
 });
 
+var errorCallBack = function(err: any) {
+  if(err) {
+    console.log(err);
+  }
+}
+
 
 // rb-0 - distance, ambient light, motion
 // rb-1 - rb-4 - motion
@@ -52,13 +60,13 @@ bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(piName, serviceUUids[, (err: any) => {
-      if (err) {
+    bleno.startAdvertising(piName, testService.uuid, function(err: any) {
+      if(err) {
         console.log(err);
-      } else {
-        bleno.stopAdvertising();
       }
-    }]);
+    });
+  } else {
+    bleno.stopAdvertising();
   }
 });
 
