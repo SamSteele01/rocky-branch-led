@@ -1,6 +1,6 @@
-var Bleno = require('bleno');
+var bleno = require('@abandonware/bleno');
 
-var bleno = new Bleno();
+// var bleno = new Bleno();
 
 
 //constructor, then create 'new'
