@@ -50,20 +50,16 @@ var errorCallBack = function(err: any) {
   }
 }
 
-var shouldPrint = false;
+var broadcastInterval;
 
 function broadcast(message: String) {
-  shouldPrint = true;
-  var broadcastInterval = setInterval(() => {
-    if(!shouldPrint) {
-      clearInterval(broadcastInterval);
-    }
+  broadcastInterval = setInterval(() => {
     console.log(`${message}\n`);
   }, 1000);
 }
 
 function stopBroadcast() {
-  shouldPrint = false;
+  clearInterval(broadcastInterval);
 }
 
 
