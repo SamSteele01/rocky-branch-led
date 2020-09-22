@@ -139,7 +139,7 @@ bleno.on('advertisingStart', (err: any) => {
     ])
     console.log(testService.uuid);
     console.log(testService);
-    console.log(JSON.stringify(testService));
+    // console.log(JSON.stringify(testService));
     broadcast("advertising " + serviceName);
   }
 })
