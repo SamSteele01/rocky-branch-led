@@ -24,6 +24,8 @@ noble.on('stateChange', (state: string) => {
     // );
     console.log("started scanning");
     noble.startScanning();
+  } else {
+    noble.stopScanning();
   }
 });
 
