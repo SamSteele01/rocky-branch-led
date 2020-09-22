@@ -7,6 +7,7 @@
 import * as noble from "@abandonware/noble";
 
 var serviceUUIDs = ['rb00']; // default: [] => all
+const peripheralUUIDs = ['b827ebf6c6a2']
 var allowDuplicates = false;
 
 
@@ -34,8 +35,8 @@ noble.on('discover', (peripheral: noble.Peripheral) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log(`${peripheral.advertisement.localName}`);
   console.log("peripheral uuid: " + peripheral.uuid);
-  console.log(`FULL PERIPHERAL: ${JSON.stringify(peripheral)}`);
-  if(serviceUUIDs.indexOf(peripheral.uuid) > -1) {
+  // console.log(`FULL PERIPHERAL: ${JSON.stringify(peripheral)}`);
+  if(peripheralUUIDs.indexOf(peripheral.id) > -1) {
     console.log("Service found.");
     peripheral.connect((error: any) => {
       console.log("connecting");
