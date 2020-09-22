@@ -87,13 +87,30 @@ bleno.on('stateChange', (state: String) => {
     bleno.stopAdvertising();
   }
 });
+var testCharacteristic = new bleno.Characteristic({
+  uuid: 'ffff',
+  properties: ["read", "subscribe", "notify"],
+  // secure: []     - do we need security?
+  //value is buffer?  Where is this assigned?
+  // value: Buffer.alloc(1) 
+  // onSubscribe: motionOnSubscribe,
+  // onNotify: motionOnNotify,
+  // onReadRequest: motionOnReadRequest
+})
 
 var testService = new PrimaryService({
   uuid: serviceUUID, // should get as env.var
   characteristics: [
-    // see Characteristic for data type
+    testCharacteristic  
   ]
 })
+
+bleno.on('servicesSet', (error: any) => {
+  if(error) {
+    console.log(error);
+  }
+  console.log("setting service");
+}
 
 
 
