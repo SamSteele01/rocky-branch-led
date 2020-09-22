@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 var bleno = require('@abandonware/bleno');
 
 // var bleno = new Bleno();
@@ -50,7 +52,7 @@ var errorCallBack = function(err: any) {
   }
 }
 
-var broadcastInterval;
+var broadcastInterval: NodeJS.Timeout;
 
 function broadcast(message: String) {
   broadcastInterval = setInterval(() => {

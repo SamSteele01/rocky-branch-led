@@ -15,5 +15,9 @@
         "typings/browser.d.ts",
         "dist",
         "test"
+    ],
+    "types": [
+	"node",
+	"noble"
     ]
 }
