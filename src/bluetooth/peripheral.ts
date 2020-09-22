@@ -92,10 +92,23 @@ var testCharacteristic = new bleno.Characteristic({
   // secure: []     - do we need security?
   //value is buffer?  Where is this assigned?
   // value: Buffer.alloc(1) 
-  // onSubscribe: motionOnSubscribe,
-  // onNotify: motionOnNotify,
-  // onReadRequest: motionOnReadRequest
+  onSubscribe: motionOnSubscribe,
+  onNotify: motionOnNotify,
+  onReadRequest: motionOnReadRequest
 })
+
+function motionOnSubscribe(maxValueSize: number, updateValueCallback: () => any) {
+  console.log("subscribed to MotionCharacteristic");
+  console.log("motion maxValueSize: " + maxValueSize);
+}
+
+function motionOnNotify() {
+  console.log("Notfying from motion sensor");
+}
+
+function motionOnReadRequest(offset: number, callback: () => any) {
+  console.log("read request for motion sensor");
+}
 
 var testService = new PrimaryService({
   uuid: serviceUUID, // should get as env.var
@@ -108,6 +121,7 @@ bleno.on('servicesSet', (error: any) => {
   if(error) {
     console.log(error);
   }
+  console.log(bleno);
   console.log("setting service");
 })
 
@@ -139,5 +153,7 @@ bleno.on('disconnect', (clientAddress: String) => {
   console.log(`clientAddress ${clientAddress} disconnected`);
   //try to reconnect
 })
+
+
 
 module.exports = bleno;
