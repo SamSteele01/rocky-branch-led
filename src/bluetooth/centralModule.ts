@@ -1,3 +1,5 @@
+/// <reference types="noble" />
+
 const noble = require('@abandonware/noble');
 
 
@@ -6,7 +8,7 @@ var allowDuplicates = false;
 
 
 
-noble.on('stateChange', (state: String) => {
+noble.on('stateChange', (state: string) => {
   if (state === 'poweredOn') {
     //should I use startScanningAsync or startScanning?
     noble.startScanning(['e6a3e7ac-6050-43a4-9e94-5af9c81ed6c3'], allowDuplicates, (error: any) => {
@@ -20,7 +22,7 @@ noble.on('stateChange', (state: String) => {
 });
 
 
-noble.on('discover', (peripheral: Peripheral<T>) => {
+noble.on('discover', (peripheral: Peripheral) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log(`${peripheral.advertisement.localName}`);
   console.log(`${JSON.stringify(peripheral.advertisement.serviceUuids)}`);
