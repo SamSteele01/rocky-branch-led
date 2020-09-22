@@ -40,7 +40,7 @@ var serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 // export const testService
 //export characteristics
 const testService = new PrimaryService({
-  uuid: 'e6a3e7ac605043a49e945af9c81ed6c3', // should get as env.var
+  uuid: 'rb00', // should get as env.var
   characteristics: [
     // see Characteristic for data type
   ]
@@ -71,10 +71,11 @@ function stopBroadcast() {
 
 // state must be poweredOn to start advertising
 bleno.on('stateChange', (state: String) => {
+  
   console.log('on stateChange ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(serviceName, testService.uuid, function(err: any) {
+    bleno.startAdvertising(serviceName, [testService.uuid], function(err: any) {
       if(err) {
         console.log(err);
       }
@@ -84,14 +85,15 @@ bleno.on('stateChange', (state: String) => {
   }
 });
 
-bleno.setServices([
-  testService
-])
+
 
 bleno.on('advertisingStart', (err: any) => {
   if (err) {
     console.log(err);
   } else {
+    bleno.setServices([
+      testService
+    ])
     broadcast("advertising " + serviceName);
   }
 })
