@@ -12,11 +12,13 @@ var allowDuplicates = false;
 
 noble.on('stateChange', (state: string) => {
   if (state === 'poweredOn') {
+    
     //should I use startScanningAsync or startScanning?
     noble.startScanning(['e6a3e7ac-6050-43a4-9e94-5af9c81ed6c3'], allowDuplicates, (error: any) => {
       if (error) {
         console.log(error);
       }
+      console.log("Starting scanning");
 
     }
     );
@@ -28,6 +30,10 @@ noble.on('discover', (peripheral: noble.Peripheral) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log(`${peripheral.advertisement.localName}`);
   console.log(`${JSON.stringify(peripheral.advertisement.serviceUuids)}`);
+})
+
+noble.on('connect', (error: any) => {
+  console.log(error);
 })
 
 
