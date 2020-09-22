@@ -32,7 +32,7 @@ noble.on('discover', (peripheral: noble.Peripheral) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log(`${peripheral.advertisement.localName}`);
   console.log("peripheral uuid: " + peripheral.uuid);
-  console.log(`${JSON.stringify(peripheral.advertisement.serviceUuids)}`);
+  console.log(`FULL PERIPHERAL: ${JSON.stringify(peripheral)}`);
   if(serviceUUIDs.indexOf(peripheral.uuid) > -1) {
     console.log("Service found.");
     peripheral.connect((error: any) => {
