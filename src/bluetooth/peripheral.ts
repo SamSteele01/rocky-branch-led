@@ -87,6 +87,13 @@ bleno.on('stateChange', (state: String) => {
   }
 });
 
+var testService = new PrimaryService({
+  uuid: serviceUUID, // should get as env.var
+  characteristics: [
+    // see Characteristic for data type
+  ]
+})
+
 
 
 bleno.on('advertisingStart', (err: any) => {
@@ -94,13 +101,11 @@ bleno.on('advertisingStart', (err: any) => {
     console.log(err);
   } else {
     bleno.setServices([
-      new PrimaryService({
-        uuid: serviceUUID, // should get as env.var
-        characteristics: [
-          // see Characteristic for data type
-        ]
-      })
+      testService
     ])
+    console.log(testService.uuid);
+    console.log(testService);
+    console.log(JSON.stringify(testService));
     broadcast("advertising " + serviceName);
   }
 })
