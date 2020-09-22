@@ -39,12 +39,14 @@ var serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 //define characteristics and then add to services
 // export const testService
 //export characteristics
-const testService = new PrimaryService({
-  uuid: 'rb00', // should get as env.var
-  characteristics: [
-    // see Characteristic for data type
-  ]
-});
+// const testService = new PrimaryService({
+//   uuid: 'rb00', // should get as env.var
+//   characteristics: [
+//     // see Characteristic for data type
+//   ]
+// });
+
+const serviceUUID = 'rb00';
 
 var errorCallBack = function(err: any) {
   if(err) {
@@ -57,7 +59,7 @@ var broadcastInterval: NodeJS.Timeout;
 function broadcast(message: String) {
   broadcastInterval = setInterval(() => {
     console.log(`${message}\n`);
-  }, 1000);
+  }, 10000);
 }
 
 function stopBroadcast() {
@@ -75,7 +77,7 @@ bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(serviceName, [testService.uuid], function(err: any) {
+    bleno.startAdvertising(serviceName, [serviceUUID], function(err: any) {
       if(err) {
         console.log(err);
       }
@@ -92,7 +94,12 @@ bleno.on('advertisingStart', (err: any) => {
     console.log(err);
   } else {
     bleno.setServices([
-      testService
+      new PrimaryService({
+        uuid: serviceUUID, // should get as env.var
+        characteristics: [
+          // see Characteristic for data type
+        ]
+      })
     ])
     broadcast("advertising " + serviceName);
   }

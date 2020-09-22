@@ -31,6 +31,7 @@ noble.on('stateChange', (state: string) => {
 noble.on('discover', (peripheral: noble.Peripheral) => {
   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
   console.log(`${peripheral.advertisement.localName}`);
+  console.log("peripheral uuid: " + peripheral.uuid);
   console.log(`${JSON.stringify(peripheral.advertisement.serviceUuids)}`);
 })
 
