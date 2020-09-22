@@ -46,6 +46,8 @@ var serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 //   ]
 // });
 
+//address- b8:27:eb:f6:c6:a2
+
 const serviceUUID = 'rb00';
 
 var errorCallBack = function(err: any) {
@@ -125,6 +127,7 @@ bleno.on('servicesSet', (error: any) => {
   console.log("setting service");
 })
 
+//b8:27:eb:f6:c6:a2
 
 
 bleno.on('advertisingStart', (err: any) => {
