@@ -110,7 +110,7 @@ bleno.on('servicesSet', (error: any) => {
     console.log(error);
   }
   console.log("setting service");
-}
+})
 
 
 
