@@ -73,20 +73,22 @@ function stopBroadcast() {
 bleno.on('stateChange', (state: String) => {
   console.log('on stateChange ' + state);
 
-  if (state === 'poweredOn') {
+if (state === 'poweredOn') {
+	bleno.setServices([testService]);
     bleno.startAdvertising(serviceName, testService.uuid, function(err: any) {
       if(err) {
         console.log(err);
-      }
+	}
     });
-  } else {
+} else {
+    console.log("stopping advertising");
     bleno.stopAdvertising();
   }
 });
 
-bleno.setServices([
-  testService
-])
+//bleno.setServices([
+//  testService
+//])
 
 bleno.on('advertisingStart', (err: any) => {
   if (err) {
