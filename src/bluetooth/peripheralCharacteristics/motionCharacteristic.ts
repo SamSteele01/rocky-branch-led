@@ -1,6 +1,12 @@
 /// <reference types="node" />
+/// <reference types="bleno" />
 
-var bleno = require('@abandonware/bleno');
+//import * as bleno from '@abandonware/bleno';
+
+//import bleno from "@abandonware/bleno";
+
+var bleno = require("@abandonware/bleno");
+var util = require('util');
 
 // var MotionCharacteristic = new bleno.Characteristic({
 //   uuid: 'fffffffffffffffffffffffffffffff0',
@@ -14,49 +20,56 @@ var bleno = require('@abandonware/bleno');
 // })
 
 
-// function MotionCharacteristic() {
-//   bleno.PrimaryService.call(this, {
-//     uuid: 'fffffffffffffffffffffffffffffff0',
-//     properties: ["read", "subscribe", "notify"],
-//     // secure: []     - do we need security?
-//     //value is buffer?  Where is this assigned?
-//     value: Buffer.alloc(1)
-//     // onSubscribe: motionOnSubscribe,
-//     // onNotify: motionOnNotify,
-//     // onReadRequest: motionOnReadRequest
-//   })
-// }
+function MotionCharacteristic(motion: any) {
+  bleno.PrimaryService.call(this, {
+    uuid: 'fffffffffffffffffffffffffffffff0',
+    properties: ["read", "subscribe", "notify"],
+    // secure: []     - do we need security?
+    //value is buffer?  Where is this assigned?
+    value: Buffer.alloc(1)
+    // onSubscribe: motionOnSubscribe,
+    // onNotify: motionOnNotify,
+    // onReadRequest: motionOnReadRequest
+  });
 
-console.log(bleno.Characteristic);
+  this.motion = motion;
 
-export default class MotionCharacteristic extends bleno.Characteristic {
-  uuid: string;
-  properties: string[];
-  value: Buffer;
-
-
-  constructor(uuid: string) {
-    super(onReadRequest, onNotify, onSubscribe);
-    this.uuid = uuid;
-    this.properties = ["read", "subscribe", "notify"];
-    this.value = Buffer.alloc(1);
-    this.onSubscribe = motionOnSubscribe;
-    this.onNotify = motionOnNotify;
-    this.onReadRequest = motionOnReadRequest;
-  }
 }
 
-// function motionOnSubscribe(maxValueSize, updateValueCallback) {
-//   console.log("subscribed to MotionCharacteristic");
-//   console.log("motion maxValueSize: " + maxValueSize);
+util.inherits(MotionCharacteristic, bleno.Characteristic);
+
+// console.log(bleno.Characteristic);
+
+// export class MotionCharacteristic extends bleno.Characteristic {
+//   uuid: string;
+//   properties: string[];
+//   value: Buffer;
+  
+
+//   constructor(uuid: string) {
+//     super(uuid, onSubscribe, onNotify, onReadRequest);
+//     this.uuid = uuid;
+//     this.properties = ["read", "subscribe", "notify"];
+//     this.value = Buffer.alloc(1);
+// //  this.onSubscribe = motionOnSubscribe;
+// //  this.onNotify = motionOnNotify;
+// //  this.onReadRequest = motionOnReadRequest;
+//   }
 // }
 
-// function motionOnNotify() {
-//   console.log("Notfying from motion sensor");
-// }
+MotionCharacteristic.prototype.onSubscribe = function(maxValueSize: any, updateValueCallback: () => any) {
+   console.log("subscribed to MotionCharacteristic");
+   console.log("motion maxValueSize: " + maxValueSize);
+ }
 
-// function motionOnReadRequest(offset, callback) {
-//   console.log("read request for motion sensor");
-// }
+ MotionCharacteristic.prototype.onNotify = function() {
+   console.log("Notfying from motion sensor");
+ }
 
-// module.exports = new MotionCharacteristic();
+MotionCharacteristic.prototype.onReadRequest = function(offset: any, callback: () => any) {
+   console.log("read request for motion sensor");
+ }
+
+
+//module.exports = new MotionCharacteristic();
+

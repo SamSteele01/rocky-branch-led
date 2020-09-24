@@ -4,14 +4,15 @@ var bleno = require('@abandonware/bleno');
 
 // var bleno = new Bleno();
 
+import { MotionCharacteristic } from "./peripheralCharacteristics/motionCharacteristic.js";
 
 //constructor, then create 'new'
 var PrimaryService = bleno.PrimaryService;
 
 
-var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic");
+//var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic");
 
-var motionCharacteristic = new MotionCharacteristic;
+var motionCharacteristic = new MotionCharacteristic("0000");
 
 // state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 //
