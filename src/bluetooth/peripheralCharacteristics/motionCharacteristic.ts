@@ -20,19 +20,18 @@ var util = require('util');
 // })
 
 
-function MotionCharacteristic(motion: any) {
+function MotionCharacteristic() {
   bleno.PrimaryService.call(this, {
-    uuid: 'fffffffffffffffffffffffffffffff0',
+    uuid: '0000',
     properties: ["read", "subscribe", "notify"],
     // secure: []     - do we need security?
     //value is buffer?  Where is this assigned?
-    value: Buffer.alloc(1)
+    //value: Buffer.alloc(1)
     // onSubscribe: motionOnSubscribe,
     // onNotify: motionOnNotify,
     // onReadRequest: motionOnReadRequest
   });
-
-  this.motion = motion;
+  this._value = Buffer.alloc(1);
 
 }
 
@@ -71,5 +70,5 @@ MotionCharacteristic.prototype.onReadRequest = function(offset: any, callback: (
  }
 
 
-//module.exports = new MotionCharacteristic();
+export {  MotionCharacteristic };
 

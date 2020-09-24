@@ -7,7 +7,7 @@
 import * as noble from "@abandonware/noble";
 
 var serviceUUIDs = ['rb00']; // default: [] => all
-const peripheralUUIDs = ['b827ebf6c6a2'];
+const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
 const characteristicUUIDs = ['ffff'];
 var allowDuplicates = false;
 
