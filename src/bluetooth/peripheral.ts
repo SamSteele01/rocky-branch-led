@@ -8,6 +8,11 @@ var bleno = require('@abandonware/bleno');
 //constructor, then create 'new'
 var PrimaryService = bleno.PrimaryService;
 
+
+var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic");
+
+var motionCharacteristic = new MotionCharacteristic;
+
 // state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 //
 // bleno.on('stateChange', callback(state));
