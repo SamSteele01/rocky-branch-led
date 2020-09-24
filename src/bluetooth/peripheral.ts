@@ -4,9 +4,18 @@ var bleno = require('@abandonware/bleno');
 
 // var bleno = new Bleno();
 
+//var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic.js");
+
+import { MotionCharacteristic as Motion } from "./peripheralCharacteristics/motionCharacteristic.js";
+
 
 //constructor, then create 'new'
 var PrimaryService = bleno.PrimaryService;
+
+
+//var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic");
+
+var motionCharacteristic = new (Motion as any)();
 
 // state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 //
@@ -41,8 +50,8 @@ var serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 //export characteristics
 // const testService = new PrimaryService({
 //   uuid: 'rb00', // should get as env.var
-//   characteristics: [
-//     // see Characteristic for data type
+//   characteristics: [   
+// see Characteristic for data type
 //   ]
 // });
 
@@ -116,7 +125,8 @@ function motionOnReadRequest(offset: number, callback: () => any) {
 var testService = new PrimaryService({
   uuid: serviceUUID, // should get as env.var
   characteristics: [
-    testCharacteristic  
+    testCharacteristic,
+    motionCharacteristic
   ]
 })
 
