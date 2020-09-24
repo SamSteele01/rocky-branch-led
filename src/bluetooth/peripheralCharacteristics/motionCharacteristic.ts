@@ -29,7 +29,7 @@ var bleno = require('@abandonware/bleno');
 
 console.log(bleno.Characteristic);
 
-class MotionCharacteristic extends bleno.Characteristic {
+export default class MotionCharacteristic extends bleno.Characteristic {
   uuid: string;
   properties: string[];
   value: Buffer;
@@ -59,4 +59,4 @@ class MotionCharacteristic extends bleno.Characteristic {
 //   console.log("read request for motion sensor");
 // }
 
-module.exports = new MotionCharacteristic();
+// module.exports = new MotionCharacteristic();
