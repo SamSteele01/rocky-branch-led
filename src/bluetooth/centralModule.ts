@@ -4,17 +4,15 @@
 //var noble = require('@abandonware/noble');
 //import * as noble from "@abadonware/noble";
 
-import * as noble from "@abandonware/noble";
+import * as noble from '@abandonware/noble';
 
-var serviceUUIDs = ['rb00']; // default: [] => all
 const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
+const serviceUUIDs = ['rb00']; // default: [] => all
 const characteristicUUIDs = ['ffff'];
-var allowDuplicates = false;
-
+const allowDuplicates = false;
 
 noble.on('stateChange', (state: string) => {
   if (state === 'poweredOn') {
-    
     //should I use startScanningAsync or startScanning?
     // noble.startScanning(['e6a3e7ac605043a49e945af9c81ed6c3'], allowDuplicates, (error: any) => {
     //   if (error) {
@@ -24,43 +22,78 @@ noble.on('stateChange', (state: string) => {
 
     // }
     // );
-    console.log("started scanning");
+    console.log('started scanning');
     noble.startScanning();
   } else {
     noble.stopScanning();
   }
 });
 
+// noble.on('discover', (peripheral: noble.Peripheral) => {
+//   console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
+//   console.log(`${peripheral.advertisement.localName}`);
+//   console.log("peripheral uuid: " + peripheral.uuid);
+//   // console.log(`FULL PERIPHERAL: ${JSON.stringify(peripheral)}`);
+//   if(peripheralUUIDs.indexOf(peripheral.id) > -1) {
+//     console.log("Service found.");
+//     peripheral.connect((error: any) => {
+//       console.log("connecting");
+//       if(error) {
+//         console.log(error);
+//       }
+//
+//       peripheral.discoverSomeServicesAndCharacteristics(
+//         serviceUUIDs,
+//         characteristicUUIDs
+//       );
+//     })
+//
+//   }
+// })
 
-noble.on('discover', (peripheral: noble.Peripheral) => {
-  console.log(`peripheral discovered (${peripheral.id} with address <${peripheral.address}, ${peripheral.addressType}>, connectable ${peripheral.connectable}, RSSI ${peripheral.rssi}:`);
-  console.log(`${peripheral.advertisement.localName}`);
-  console.log("peripheral uuid: " + peripheral.uuid);
-  // console.log(`FULL PERIPHERAL: ${JSON.stringify(peripheral)}`);
-  if(peripheralUUIDs.indexOf(peripheral.id) > -1) {
-    console.log("Service found.");
-    peripheral.connect((error: any) => {
-      console.log("connecting");
-      if(error) {
-        console.log(error);
-      }
+noble.on('discover', async (peripheral) => {
+  // if all peripherals are connected
+  // await noble.stopScanningAsync();
 
-      peripheral.discoverSomeServicesAndCharacteristics(
-        serviceUUIDs,
-        characteristicUUIDs
+  await peripheral.connectAsync();
+
+  peripheral.once('connect', () => {
+    console.log(`connected to ${peripheral.id} uuid: ${peripheral.uuid}`);
+    console.log(
+      `with rssi of: ${peripheral.rssi} and name: ${peripheral.advertisement.localName}`,
+    );
+  });
+
+  const {
+    services,
+    characteristics,
+  } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(
+    ['180f'], // services
+    ['2a19'], // characteristics
+  );
+
+  characteristics.map((char) => {
+    char.subscribe((error) => {
+      console.error(
+        `ERROR with ${peripheral.id}, characteristic: ${char.name}`,
+        error,
       );
-    })
+    });
+    // char.on('read', (buffer) => {});
+    char.on('data', (data: any /* Buffer? */, isNotification: Boolean) => {
+      console.log('DATA', data);
+      console.log('ISNOTIFICATION', isNotification);
+      // call a function
+    });
+  });
 
-  }
-})
+  await peripheral.disconnectAsync();
+  process.exit(0);
+});
 
 // function onServicesAndCharacteristicsDiscovered(error: any, services: noble.Peripheral.Servic, characteristics) {
 
 // }
-
-
-
-
 
 // // noble.on('scanStart', callback);
 // // noble.stopScanning();
