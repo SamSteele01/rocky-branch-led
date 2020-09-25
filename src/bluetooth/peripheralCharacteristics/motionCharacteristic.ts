@@ -20,10 +20,10 @@ var util = require('util');
 // })
 
 
-function MotionCharacteristic() {
-  bleno.PrimaryService.call(this, {
-    uuid: '0000',
-    properties: ["read", "subscribe", "notify"],
+var MotionCharacteristic = function() {
+  MotionCharacteristic.super_.call(this, {
+    uuid: '0001',
+    properties: ['read', 'subscribe', 'notify'],
     // secure: []     - do we need security?
     //value is buffer?  Where is this assigned?
     //value: Buffer.alloc(1)
