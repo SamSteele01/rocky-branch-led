@@ -124,7 +124,7 @@ function motionOnReadRequest(offset: number, callback: () => any) {
 var testService = new PrimaryService({
   uuid: serviceUUID, // should get as env.var
   characteristics: [
-    testCharacteristic,
+//    testCharacteristic,
     motionCharacteristic
   ]
 })
