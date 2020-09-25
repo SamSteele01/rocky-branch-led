@@ -15,23 +15,23 @@ We will be creating and using a Generic Attribute Profile (GATT) which has the h
 
 ### sensors
 
-distance
+Data flows from peripherals to central. Central then relays conditionally.
 
-velocity
+- distance & velocity
 
-motion
+- motion & direction
 
-direction
-
-ambient light
+- ambient light
 
 ### effects
 
-effect id ( what effect to currently be running )
+Data flows from central to peripherals.
 
-clock sync event ( get all fixtures on the same timing )
+- effect id ( what effect to currently be running )
 
-abstract ( x, y grid for the whole tunnel, either boolean values, or a single Uint8 (0 - 255) )
+- clock sync event ( get all fixtures on the same timing )
+
+- ?? abstract ( x, y grid for the whole tunnel, either boolean values, or a single Uint8 (0 - 255) )
 
 > May be better to have each device calculate their section of the tunnel.
 

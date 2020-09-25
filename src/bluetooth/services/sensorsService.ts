@@ -1,9 +1,19 @@
+import bleno from '@abandonware/bleno';
+
+const PrimaryService = bleno.PrimaryService;
+
+export const sensorsService = new PrimaryService({
+  uuid: 'fffffffffffffffffffffffffffffff0', // or 'fff0' for 16-bit
+  characteristics: [
+    // see Characteristic for data type
+  ],
+});
+
 // var bleno = require('bleno');
 
 // const DistanceCharacteristic = require("./bluetooth/DistanceCharacteristic");
 // const MotionCharacteristic = require("./bluetooth/MotionCharacteristic");
 // const AmbientLightCharacteristic = require("./bluetooth/AmbientLightCharacteristic");
-
 
 // var PrimaryService = bleno.PrimaryService;
 
@@ -49,6 +59,5 @@
 // }
 
 // module.exports = SensorService;
-
 
 // // switch statement for choosing prototype characteristics?

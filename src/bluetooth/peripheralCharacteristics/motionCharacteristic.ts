@@ -3,10 +3,10 @@
 
 //import * as bleno from '@abandonware/bleno';
 
-//import bleno from "@abandonware/bleno";
+import * as bleno from '@abandonware/bleno';
 
 var bleno = require('@abandonware/bleno');
-var util = require('util');
+// var util = require('util');
 
 function motionOnSubscribe(
   maxValueSize: any,
