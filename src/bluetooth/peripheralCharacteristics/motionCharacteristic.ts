@@ -3,7 +3,7 @@
 
 //import * as bleno from '@abandonware/bleno';
 
-import * as bleno from '@abandonware/bleno';
+//import * as bleno from '@abandonware/bleno';
 
 var bleno = require('@abandonware/bleno');
 // var util = require('util');
@@ -32,7 +32,7 @@ export const motionCharacteristic = new bleno.Characteristic({
   //value is buffer?  Where is this assigned?
 
   // need to define ---
-  value: Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
+value: null, // Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
   onSubscribe: motionOnSubscribe,
   onNotify: motionOnNotify,
   onReadRequest: motionOnReadRequest,

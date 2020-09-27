@@ -6,7 +6,7 @@ var bleno = require('@abandonware/bleno');
 
 //var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic.js");
 
-import motionCharacteristic from "./peripheralCharacteristics/motionCharacteristic.js";
+import { motionCharacteristic } from "./peripheralCharacteristics/motionCharacteristic.js";
 
 
 //constructor, then create 'new'

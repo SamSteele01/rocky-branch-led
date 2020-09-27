@@ -2,9 +2,9 @@
 /// <reference types="noble" />
 
 //var noble = require('@abandonware/noble');
-//import * as noble from "@abadonware/noble";
+import noble from "@abandonware/noble";
 
-import * as noble from '@abandonware/noble';
+//import * as noble from '@abandonware/noble';
 
 const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
 const serviceUUIDs = ['rb00']; // default: [] => all
