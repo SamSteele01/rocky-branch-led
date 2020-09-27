@@ -1,10 +1,9 @@
-/// <reference types="node" />
-/// <reference types="noble" />
 
-//var noble = require('@abandonware/noble');
-import noble from "@abandonware/noble";
 
-//import * as noble from '@abandonware/noble';
+// var noble = require('@abandonware/noble');
+// import { noble } from "@abandonware/noble";
+
+import noble from '@abandonware/noble';
 
 const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
 const serviceUUIDs = ['rb00']; // default: [] => all
@@ -22,6 +21,7 @@ function routeCharacteristicData(
   charUuid: string,
   data: Buffer,
 ) {
+  console.log("routing characteristics");
   // switch about characteristics & call respective function
 }
 
@@ -76,6 +76,9 @@ noble.on('discover', async (peripheral) => {
   }
 
   if (peripheralUUIDs.includes(peripheral.id)) {
+    await noble.stopScanningAsync();
+    console.log("Found peripheral with uuid " + peripheral.id);
+    console.log(peripheral);
     await peripheral.connectAsync();
   }
 
@@ -86,44 +89,67 @@ noble.on('discover', async (peripheral) => {
     );
     connectedPeripherials.push(peripheral);
   });
+  // for type- services, noble.Peripheral.services, noble.Peripheral.Service[] don't work
+  // 
 
-  const {
-    // services,
-    characteristics,
-  } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(
-    ['180f'], // services
-    ['2a19'], // characteristics
-  );
+  peripheral.once('servicesDiscover', (services: noble.Service[]) => {
+    console.log("Discovered services: " + services);
+    console.log(services.length);
+    services.forEach(service => {
+      service.discoverCharacteristics()
+      service.once('characteristicsDiscover', (characteristics: noble.Characteristic[]) => {
+        console.log("Discovered characteristics: " + characteristics);
+        characteristics.forEach(characteristic => characteristic.subscribe((err: any) => {
+          if (err) {
+            console.log(err)
+          }
+        }))
+      });
 
-  characteristics.map((char) => {
-    usableCharacteristics[peripheral.id + '-' + char.uuid] = char;
-    char.subscribe((error) => {
-      console.error(
-        `ERROR with ${peripheral.id}, characteristic: ${char.name}`,
-        error,
-      );
-    });
-    // char.on('read', (buffer) => {});
-    char.on('data', (data: any /* Buffer? */, isNotification: Boolean) => {
-      console.log('DATA', data);
-      console.log('ISNOTIFICATION', isNotification);
-      // call a function
-      // switch here or in function
-      routeCharacteristicData(peripheral.id, char.uuid, data);
+
+    })
+  });
+
+    const {
+      // services,
+      characteristics,
+    } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(
+      ['rb00'], // services
+      ['72eadb17c12042aca983484834b0faf9'], // characteristics
+    );
+
+    console.log("YEET");
+
+
+    characteristics.map((char) => {
+      usableCharacteristics[peripheral.id + '-' + char.uuid] = char;
+      char.subscribe((error) => {
+        console.error(
+          `ERROR with ${peripheral.id}, characteristic: ${char.name}`,
+          error,
+        );
+      });
+      // char.on('read', (buffer) => {});
+      char.on('data', (data: any /* Buffer? */, isNotification: Boolean) => {
+        console.log('DATA', data);
+        console.log('ISNOTIFICATION', isNotification);
+        // call a function
+        // switch here or in function
+        routeCharacteristicData(peripheral.id, char.uuid, data);
+      });
     });
   });
-});
 
-function cleanup() {
-  // map thourgh listeners
-  connectedPeripherials.forEach((periph) => {
-    periph.disconnect();
-  });
-}
+  function cleanup() {
+    // map thourgh listeners
+    connectedPeripherials.forEach((periph) => {
+      periph.disconnect();
+    });
+  }
 
-process.on('exit', cleanup);
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
+  process.on('exit', cleanup);
+  process.on('SIGINT', cleanup);
+  process.on('SIGTERM', cleanup);
 
 // function onServicesAndCharacteristicsDiscovered(error: any, services: noble.Peripheral.Servic, characteristics) {
 

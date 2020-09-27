@@ -134,8 +134,14 @@ bleno.on('servicesSet', (error: any) => {
   if(error) {
     console.log(error);
   }
-  console.log(bleno);
   console.log("setting service");
+})
+
+bleno.on('servicesSetError', (error: any) => {
+  if(error) {
+    console.log(error);
+  }
+  console.log("ERROR SETTING SERVICE");
 })
 
 //b8:27:eb:f6:c6:a2
@@ -150,6 +156,7 @@ bleno.on('advertisingStart', (err: any) => {
     ])
     console.log(testService.uuid);
     console.log(testService);
+    console.log(bleno.services);
     // console.log(JSON.stringify(testService));
     broadcast("advertising " + serviceName);
   }
@@ -170,4 +177,4 @@ bleno.on('disconnect', (clientAddress: String) => {
 
 
 
-module.exports = bleno;
+//module.exports = bleno;

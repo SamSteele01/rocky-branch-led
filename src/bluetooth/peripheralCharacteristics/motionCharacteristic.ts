@@ -32,10 +32,22 @@ export const motionCharacteristic = new bleno.Characteristic({
   //value is buffer?  Where is this assigned?
 
   // need to define ---
-value: null, // Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
-  onSubscribe: motionOnSubscribe,
-  onNotify: motionOnNotify,
-  onReadRequest: motionOnReadRequest,
+  value: null, //Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
+  // onSubscribe: motionOnSubscribe,
+  // onNotify: motionOnNotify,
+  // onReadRequest: motionOnReadRequest,
+  onSubscribe: (maxValueSize: any, updateValueCallback: () => any) => {
+    console.log('subscribed to MotionCharacteristic');
+    console.log('motion maxValueSize: ' + maxValueSize);
+  },
+
+  onNotify: () => {
+    console.log('Notfying from motion sensor');
+  },
+
+  onReadReaquest: (offset: any, callback: () => any) => {
+    console.log('read request for motion sensor');
+  }
 });
 
 // motionCharacteristic
