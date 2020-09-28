@@ -6,7 +6,7 @@
 import noble from '@abandonware/noble';
 
 const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
-const serviceUUIDs = ['rb00']; // default: [] => all
+const serviceUUIDs = ['rb00', '3e970b82-01a4-11eb-adc1-0242ac120002']; // default: [] => all
 const characteristicUUIDs = ['72eadb17c12042aca983484834b0faf9'];
 const allowDuplicates = false;
 let connectedPeripherials: noble.Peripheral[] = [];
@@ -101,11 +101,19 @@ noble.on('discover', async (peripheral) => {
       service.once('characteristicsDiscover', (characteristics: noble.Characteristic[]) => {
         console.log("Discovered characteristics: " + characteristics);
         characteristics.forEach(characteristic => {
-          characteristic.subscribe((err: any) => {
-            if (err) {
-              console.log(err)
-            }
-          })
+          if (characteristicUUIDs.includes(characteristic.uuid)) {
+
+            characteristic.on('data', (data: Buffer) => {
+              console.log("Data: " + data);
+            });
+            console.log("found characteristic")
+            characteristic.subscribe((err: any) => {
+              if (err) {
+                console.log(err)
+              }
+            })
+            characteristic.read();
+          }
         })
       });
 
