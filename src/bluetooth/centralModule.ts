@@ -7,7 +7,7 @@ import noble from '@abandonware/noble';
 
 const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
 const serviceUUIDs = ['rb00']; // default: [] => all
-const characteristicUUIDs = ['ffff'];
+const characteristicUUIDs = ['72eadb17c12042aca983484834b0faf9'];
 const allowDuplicates = false;
 let connectedPeripherials: noble.Peripheral[] = [];
 let usableCharacteristics: IUsableCharacteristics = {};
@@ -29,7 +29,7 @@ function routeCharacteristicData(
 
 // usableCharacteristics[peripheralId + '-' + charUuid].write(data)
 
-noble.on('stateChange', (state: string) => {
+noble.on('stateChange', async (state: string) => {
   if (state === 'poweredOn') {
     //should I use startScanningAsync or startScanning?
     // noble.startScanning(['e6a3e7ac605043a49e945af9c81ed6c3'], allowDuplicates, (error: any) => {
@@ -41,9 +41,10 @@ noble.on('stateChange', (state: string) => {
     // }
     // );
     console.log('started scanning');
-    noble.startScanning();
+    //
+    await noble.startScanningAsync();
   } else {
-    noble.stopScanning();
+    await noble.stopScanningAsync();
   }
 });
 
@@ -78,7 +79,6 @@ noble.on('discover', async (peripheral) => {
   if (peripheralUUIDs.includes(peripheral.id)) {
     await noble.stopScanningAsync();
     console.log("Found peripheral with uuid " + peripheral.id);
-    console.log(peripheral);
     await peripheral.connectAsync();
   }
 
@@ -96,60 +96,64 @@ noble.on('discover', async (peripheral) => {
     console.log("Discovered services: " + services);
     console.log(services.length);
     services.forEach(service => {
+      console.log(service.uuid);
       service.discoverCharacteristics()
       service.once('characteristicsDiscover', (characteristics: noble.Characteristic[]) => {
         console.log("Discovered characteristics: " + characteristics);
-        characteristics.forEach(characteristic => characteristic.subscribe((err: any) => {
-          if (err) {
-            console.log(err)
-          }
-        }))
+        characteristics.forEach(characteristic => {
+          characteristic.subscribe((err: any) => {
+            if (err) {
+              console.log(err)
+            }
+          })
+        })
       });
 
 
     })
   });
 
-    const {
-      // services,
-      characteristics,
-    } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(
-      ['rb00'], // services
-      ['72eadb17c12042aca983484834b0faf9'], // characteristics
-    );
+  // const {
+  //   // services,
+  //   characteristics,
+  // } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(
+  //   ['rb00'], // services
+  //   ['72eadb17c12042aca983484834b0faf9'], // characteristics
+  // );
 
-    console.log("YEET");
+  const services = await peripheral.discoverServicesAsync();
+  console.log("YEET");
 
 
-    characteristics.map((char) => {
-      usableCharacteristics[peripheral.id + '-' + char.uuid] = char;
-      char.subscribe((error) => {
-        console.error(
-          `ERROR with ${peripheral.id}, characteristic: ${char.name}`,
-          error,
-        );
-      });
-      // char.on('read', (buffer) => {});
-      char.on('data', (data: any /* Buffer? */, isNotification: Boolean) => {
-        console.log('DATA', data);
-        console.log('ISNOTIFICATION', isNotification);
-        // call a function
-        // switch here or in function
-        routeCharacteristicData(peripheral.id, char.uuid, data);
-      });
-    });
+  // characteristics.map((char) => {
+  //   usableCharacteristics[peripheral.id + '-' + char.uuid] = char;
+  //   char.subscribe((error) => {
+  //     console.error(
+  //       `ERROR with ${peripheral.id}, characteristic: ${char.name}`,
+  //       error,
+  //     );
+  //   });
+  //   // char.on('read', (buffer) => {});
+  //   char.on('data', (data: any /* Buffer? */, isNotification: Boolean) => {
+  //     console.log('DATA', data);
+  //     console.log('ISNOTIFICATION', isNotification);
+  //     // call a function
+  //     // switch here or in function
+  //     routeCharacteristicData(peripheral.id, char.uuid, data);
+  //   });
+  // });
+});
+
+function cleanup() {
+  // map thourgh listeners
+  connectedPeripherials.forEach((periph) => {
+    periph.disconnect();
   });
+}
 
-  function cleanup() {
-    // map thourgh listeners
-    connectedPeripherials.forEach((periph) => {
-      periph.disconnect();
-    });
-  }
-
-  process.on('exit', cleanup);
-  process.on('SIGINT', cleanup);
-  process.on('SIGTERM', cleanup);
+process.on('exit', cleanup);
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
 
 // function onServicesAndCharacteristicsDiscovered(error: any, services: noble.Peripheral.Servic, characteristics) {
 

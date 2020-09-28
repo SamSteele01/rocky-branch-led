@@ -2,12 +2,14 @@
 
 var bleno = require('@abandonware/bleno');
 
+import { motionCharacteristic } from "./peripheralCharacteristics/motionCharacteristic.js";
+
 const PrimaryService = bleno.PrimaryService;
 
 export const sensorsService = new PrimaryService({
-  uuid: 'fffffffffffffffffffffffffffffff0', // or 'fff0' for 16-bit
+  uuid: '3e970b82-01a4-11eb-adc1-0242ac120002', // or 'fff0' for 16-bit
   characteristics: [
-    // see Characteristic for data type
+    motionCharacteristic
   ],
 });
 

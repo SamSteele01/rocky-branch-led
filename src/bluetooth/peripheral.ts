@@ -8,6 +8,8 @@ var bleno = require('@abandonware/bleno');
 
 import { motionCharacteristic } from "./peripheralCharacteristics/motionCharacteristic.js";
 
+import { sensorsService } from "./services/sensorsService.js";
+
 
 //constructor, then create 'new'
 var PrimaryService = bleno.PrimaryService;
@@ -98,37 +100,37 @@ bleno.on('stateChange', (state: String) => {
     bleno.stopAdvertising();
   }
 });
-var testCharacteristic = new bleno.Characteristic({
-  uuid: 'ffff',
-  properties: ["read", "subscribe", "notify"],
-  // secure: []     - do we need security?
-  //value is buffer?  Where is this assigned?
-  // value: Buffer.alloc(1) 
-  onSubscribe: motionOnSubscribe,
-  onNotify: motionOnNotify,
-  onReadRequest: motionOnReadRequest
-})
+// var testCharacteristic = new bleno.Characteristic({
+//   uuid: 'ffff',
+//   properties: ["read", "subscribe", "notify"],
+//   // secure: []     - do we need security?
+//   //value is buffer?  Where is this assigned?
+//   // value: Buffer.alloc(1) 
+//   onSubscribe: motionOnSubscribe,
+//   onNotify: motionOnNotify,
+//   onReadRequest: motionOnReadRequest
+// })
 
-function motionOnSubscribe(maxValueSize: number, updateValueCallback: () => any) {
-  console.log("subscribed to MotionCharacteristic");
-  console.log("motion maxValueSize: " + maxValueSize);
-}
+// function motionOnSubscribe(maxValueSize: number, updateValueCallback: () => any) {
+//   console.log("subscribed to MotionCharacteristic");
+//   console.log("motion maxValueSize: " + maxValueSize);
+// }
 
-function motionOnNotify() {
-  console.log("Notfying from motion sensor");
-}
+// function motionOnNotify() {
+//   console.log("Notfying from motion sensor");
+// }
 
-function motionOnReadRequest(offset: number, callback: () => any) {
-  console.log("read request for motion sensor");
-}
+// function motionOnReadRequest(offset: number, callback: () => any) {
+//   console.log("read request for motion sensor");
+// }
 
-var testService = new PrimaryService({
-  uuid: serviceUUID, // should get as env.var
-  characteristics: [
-//    testCharacteristic,
-    motionCharacteristic
-  ]
-})
+// var testService = new PrimaryService({
+//   uuid: serviceUUID, // should get as env.var
+//   characteristics: [
+// //    testCharacteristic,
+//     motionCharacteristic
+//   ]
+// })
 
 bleno.on('servicesSet', (error: any) => {
   if(error) {
@@ -152,14 +154,13 @@ bleno.on('advertisingStart', (err: any) => {
     console.log(err);
   } else {
     bleno.setServices([
-      testService
+      sensorsService
     ])
-    console.log(testService.uuid);
-    console.log(testService);
+    console.log(sensorsService.uuid);
+    console.log(sensorsService);
     console.log(bleno.services);
     // console.log(JSON.stringify(testService));
-    broadcast("advertising " + serviceName);
-  }
+    broadcast("advertising ");
 })
 
 bleno.on('accept', (clientAddress: String) => {
