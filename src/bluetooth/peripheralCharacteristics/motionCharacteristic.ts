@@ -8,16 +8,20 @@
 var bleno = require('@abandonware/bleno');
 // var util = require('util');
 
-function motionOnSubscribe(
-  maxValueSize: any,
-  updateValueCallback: () => any,
-): void {
-  console.log('subscribed to MotionCharacteristic');
-  console.log('motion maxValueSize: ' + maxValueSize);
-}
+// function motionOnSubscribe(
+//   maxValueSize: any,
+//   updateValueCallback: (result: any, data: Buffer) => any,
+// ): void {
 
-function motionOnNotify(data: Buffer): void {
-  console.log('Notfying from motion sensor');
+//   console.log('subscribed to MotionCharacteristic');
+//   console.log('motion maxValueSize: ' + maxValueSize);
+// }
+
+function motionOnNotify(updateValueCallback: (result: any, data: Buffer) => any)
+  : void {
+    let myBuffer = Buffer.alloc(3, 1);
+    console.log('Notfying from motion sensor');
+    updateValueCallback(bleno.Characteristic.RESULT_SUCCESS, myBuffer);
 }
 
 function motionOnReadRequest(offset: any, callback: () => any): void {
@@ -27,7 +31,7 @@ function motionOnReadRequest(offset: any, callback: () => any): void {
 export const motionCharacteristic = new bleno.Characteristic({
   uuid: '72eadb17-c120-42ac-a983-484834b0faf9',
   // uuid: 'fb4d273c-ff58-11ea-adc1-0242ac120002',
-  properties: ['read', 'subscribe', 'notify'],
+  properties: ['read', 'notify'],
   // secure: []     - do we need security?
   //value is buffer?  Where is this assigned?
 
@@ -36,10 +40,11 @@ export const motionCharacteristic = new bleno.Characteristic({
   // onSubscribe: motionOnSubscribe,
   // onNotify: motionOnNotify,
   // onReadRequest: motionOnReadRequest,
-  onSubscribe: (maxValueSize: any, updateValueCallback: () => any) => {
-    console.log('subscribed to MotionCharacteristic');
-    console.log('motion maxValueSize: ' + maxValueSize);
-  },
+  // onSubscribe: (maxValueSize: any, updateValueCallback: () => any) => {
+  //   console.log('subscribed to MotionCharacteristic');
+  //   console.log('motion maxValueSize: ' + maxValueSize);
+  //   // updateValueCallback(Buffer.alloc(3, 1))
+  // },
 
   onNotify: () => {
     console.log('Notfying from motion sensor');
