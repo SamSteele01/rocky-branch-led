@@ -2,7 +2,7 @@
 
 var bleno = require('@abandonware/bleno');
 
-import { motionCharacteristic } from "./peripheralCharacteristics/motionCharacteristic.js";
+import { motionCharacteristic } from "../peripheralCharacteristics/motionCharacteristic.js";
 
 const PrimaryService = bleno.PrimaryService;
 

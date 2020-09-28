@@ -161,6 +161,7 @@ bleno.on('advertisingStart', (err: any) => {
     console.log(bleno.services);
     // console.log(JSON.stringify(testService));
     broadcast("advertising ");
+  }
 })
 
 bleno.on('accept', (clientAddress: String) => {
