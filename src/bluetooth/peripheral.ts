@@ -167,7 +167,9 @@ bleno.on('accept', (clientAddress: String) => {
   console.log(`clientAddress ${clientAddress} accepted`);
   stopBroadcast();
   console.log("accepted");
-
+bleno.stopAdvertising(() => { 
+  console.log("stopped advertising");
+})
   //stop advertising? (is automatic?)
 })
 
@@ -176,6 +178,8 @@ bleno.on('disconnect', (clientAddress: String) => {
   //try to reconnect
 })
 
-
+bleno.on('connect', () => {
+  console.log("connected");
+})
 
 //module.exports = bleno;
