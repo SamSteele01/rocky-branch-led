@@ -105,12 +105,15 @@ noble.on('discover', async (peripheral) => {
 
             characteristic.on('data', (data: Buffer) => {
               console.log("Data: " + data);
+              console.log("Data Length: " + data.length);
+              console.log("Data Type: " + typeof data);
             });
             console.log("found characteristic")
             characteristic.subscribe((err: any) => {
               if (err) {
                 console.log(err)
               }
+              console.log("subscribed");
             })
             characteristic.read();
           }

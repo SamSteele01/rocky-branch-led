@@ -8,36 +8,45 @@
 var bleno = require('@abandonware/bleno');
 // var util = require('util');
 
-// function motionOnSubscribe(
-//   maxValueSize: any,
-//   updateValueCallback: (result: any, data: Buffer) => any,
-// ): void {
-
-//   console.log('subscribed to MotionCharacteristic');
-//   console.log('motion maxValueSize: ' + maxValueSize);
-// }
-
-function motionOnNotify(updateValueCallback: (result: any, data: Buffer) => any)
-  : void {
-    let myBuffer = Buffer.alloc(3, 1);
-    console.log('Notfying from motion sensor');
-    updateValueCallback(bleno.Characteristic.RESULT_SUCCESS, myBuffer);
+function motionOnSubscribe(
+  maxValueSize: any,
+  updateValueCallback: (result: any, data: Buffer) => any,
+): void {
+  console.log("first");
+  const myBuffer1 = Buffer.alloc(4, 1);
+  console.log(myBuffer1.length);
+  let result = bleno.Characteristic.RESULT_SUCCESS;
+  console.log("allocated");
+  console.log(result);
+  console.log(typeof myBuffer1);
+  updateValueCallback("0", myBuffer1);
+  console.log('subscribed to MotionCharacteristic');
+  // console.log('motion maxValueSize: ' + maxValueSize);
 }
 
-function motionOnReadRequest(offset: any, callback: () => any): void {
-  console.log('read request for motion sensor');
+function motionOnNotify() : void {
+    let myBuffer2 = Buffer.alloc(10, 1);
+    console.log('Notfying from motion sensor');
+    
+}
+
+function motionOnReadRequest(offset: any, callback: (result: any, data: Buffer) => any)
+: void {
+  let myBuffer3 = Buffer.alloc(10, 1);
+  console.log('Read request');
+  callback(bleno.Characteristic.RESULT_SUCCESS, myBuffer3);
 }
 
 export const motionCharacteristic = new bleno.Characteristic({
   uuid: '72eadb17-c120-42ac-a983-484834b0faf9',
   // uuid: 'fb4d273c-ff58-11ea-adc1-0242ac120002',
-  properties: ['read', 'notify'],
+  properties: ['read', 'notify', 'subscribe'],
   // secure: []     - do we need security?
   //value is buffer?  Where is this assigned?
 
   // need to define ---
-  value: null, //Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
-  // onSubscribe: motionOnSubscribe,
+  //value: null, //Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
+  onSubscribe: motionOnSubscribe,
   // onNotify: motionOnNotify,
   // onReadRequest: motionOnReadRequest,
   // onSubscribe: (maxValueSize: any, updateValueCallback: () => any) => {
@@ -46,13 +55,9 @@ export const motionCharacteristic = new bleno.Characteristic({
   //   // updateValueCallback(Buffer.alloc(3, 1))
   // },
 
-  onNotify: () => {
-    console.log('Notfying from motion sensor');
-  },
+  onNotify: motionOnNotify,
 
-  onReadReaquest: (offset: any, callback: () => any) => {
-    console.log('read request for motion sensor');
-  }
+  onReadReaquest: motionOnReadRequest
 });
 
 // motionCharacteristic
