@@ -10,22 +10,25 @@ var bleno = require('@abandonware/bleno');
 
 function motionOnSubscribe(
   maxValueSize: any,
-  updateValueCallback: (result: any, data: Buffer) => any,
+  updateValueCallback: (data: Buffer) => any,
 ): void {
   console.log("first");
   const myBuffer1 = Buffer.alloc(4, 1);
   console.log(myBuffer1.length);
-  let result = bleno.Characteristic.RESULT_SUCCESS;
-  console.log("allocated");
-  console.log(result);
-  console.log(typeof myBuffer1);
-  updateValueCallback("0", myBuffer1);
+  let result = this.RESULT_SUCCESS;
+  // console.log("allocated");
+  // console.log(result);
+  // console.log(typeof result);
+  // console.log(maxValueSize);
+  // console.log(this.RESULT_SUCCESS);
+  console.log(myBuffer1);
+  updateValueCallback(myBuffer1);
   console.log('subscribed to MotionCharacteristic');
   // console.log('motion maxValueSize: ' + maxValueSize);
 }
 
 function motionOnNotify() : void {
-    let myBuffer2 = Buffer.alloc(10, 1);
+    let myBuffer2 = Buffer.alloc(10, 0);
     console.log('Notfying from motion sensor');
     
 }

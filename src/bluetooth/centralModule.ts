@@ -103,17 +103,18 @@ noble.on('discover', async (peripheral) => {
         characteristics.forEach(characteristic => {
           if (characteristicUUIDs.includes(characteristic.uuid)) {
 
-            characteristic.on('data', (data: Buffer) => {
-              console.log("Data: " + data);
-              console.log("Data Length: " + data.length);
-              console.log("Data Type: " + typeof data);
-            });
+
             console.log("found characteristic")
             characteristic.subscribe((err: any) => {
               if (err) {
                 console.log(err)
               }
               console.log("subscribed");
+              characteristic.on('data', (data: Buffer) => {
+                console.log("Data: " + data);
+                console.log("Data Length: " + data.length);
+                console.log("Data Type: " + typeof data);
+              });
             })
             characteristic.read();
           }
@@ -133,7 +134,6 @@ noble.on('discover', async (peripheral) => {
   // );
 
   const services = await peripheral.discoverServicesAsync();
-  console.log("YEET");
 
 
   // characteristics.map((char) => {
