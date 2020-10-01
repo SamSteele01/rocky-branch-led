@@ -1,6 +1,6 @@
 //import bleno from '@abandonware/bleno';
 
-var bleno = require('@abandonware/bleno');
+const bleno = require('@abandonware/bleno');
 
 import { motionCharacteristic } from "../peripheralCharacteristics/motionCharacteristic.js";
 
@@ -13,13 +13,13 @@ export const sensorsService = new PrimaryService({
   ],
 });
 
-// var bleno = require('bleno');
+// const bleno = require('bleno');
 
 // const DistanceCharacteristic = require("./bluetooth/DistanceCharacteristic");
 // const MotionCharacteristic = require("./bluetooth/MotionCharacteristic");
 // const AmbientLightCharacteristic = require("./bluetooth/AmbientLightCharacteristic");
 
-// var PrimaryService = bleno.PrimaryService;
+// const PrimaryService = bleno.PrimaryService;
 
 // // function SensorService(name) {
 // //   switch(name) {

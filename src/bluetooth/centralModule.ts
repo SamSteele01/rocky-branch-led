@@ -1,8 +1,8 @@
 
 
-// var noble = require('@abandonware/noble');
+// const noble = require('@abandonware/noble');
 // import { noble } from "@abandonware/noble";
-
+//import works for noble, but not for bleno. 
 import noble from '@abandonware/noble';
 
 const peripheralUUIDs = ['b827ebf6c6a2', 'b827ebec8b5d'];
@@ -31,17 +31,8 @@ function routeCharacteristicData(
 
 noble.on('stateChange', async (state: string) => {
   if (state === 'poweredOn') {
-    //should I use startScanningAsync or startScanning?
-    // noble.startScanning(['e6a3e7ac605043a49e945af9c81ed6c3'], allowDuplicates, (error: any) => {
-    //   if (error) {
-    //     console.log(error);
-    //   }
-    //   console.log("Starting scanning");
-
-    // }
-    // );
     console.log('started scanning');
-    //
+    //we can also start scanning with more information to limit results
     await noble.startScanningAsync();
   } else {
     await noble.stopScanningAsync();
@@ -129,9 +120,11 @@ noble.on('discover', async (peripheral) => {
   //   // services,
   //   characteristics,
   // } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(
-  //   ['rb00'], // services
-  //   ['72eadb17c12042aca983484834b0faf9'], // characteristics
+  //   serviceUUIDs, // services
+  //   characteristicUUIDs, // characteristics
   // );
+
+  //discover all services or use targeted services and characteristics?
 
   const services = await peripheral.discoverServicesAsync();
 

@@ -1,6 +1,6 @@
-// var bleno = require('../peripherals.ts');
+// const bleno = require('../peripherals.ts');
 
-// // var AmbientLightCharacteristic = new bleno.Characteristic({
+// // const AmbientLightCharacteristic = new bleno.Characteristic({
 // //   uuid: 'fffffffffffffffffffffffffffffff0',
 // //   properties: ["read", "subscribe", "notify"],
 // //   value: Buffer.alloc(1),

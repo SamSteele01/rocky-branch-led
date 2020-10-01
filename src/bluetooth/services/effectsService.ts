@@ -1,6 +1,6 @@
 //import bleno from '@abandonware/bleno';
 
-var bleno = require('@abandonware/bleno');
+const bleno = require('@abandonware/bleno');
 
 const PrimaryService = bleno.PrimaryService;
 

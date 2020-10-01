@@ -1,29 +1,29 @@
 /// <reference types="node" />
 /// <reference types="bleno" />
 
-//import * as bleno from '@abandonware/bleno';
+// import * as bleno from '@abandonware/bleno';
 
-//import * as bleno from '@abandonware/bleno';
+// import bleno from '@abandonware/bleno';
 
-var bleno = require('@abandonware/bleno');
+//"require" works and the import syntax throws errors.
+const bleno = require('@abandonware/bleno');
 // var util = require('util');
 
 function motionOnSubscribe(
   maxValueSize: any,
   updateValueCallback: (data: Buffer) => any,
 ): void {
-  console.log("first");
-  const myBuffer1 = Buffer.alloc(4, 1);
-  console.log(myBuffer1.length);
-  let result = this.RESULT_SUCCESS;
-  // console.log("allocated");
-  // console.log(result);
-  // console.log(typeof result);
-  // console.log(maxValueSize);
-  // console.log(this.RESULT_SUCCESS);
-  console.log(myBuffer1);
-  updateValueCallback(myBuffer1);
   console.log('subscribed to MotionCharacteristic');
+  //creating a buffer -> <1 1 1 1>
+  const myBuffer1 = Buffer.alloc(4, 1);
+  //Docs said I needed to pass this result code to the updateValueCallback function as a parameter.
+  // Function only worked when I passed in the buffer as the only parameter. 
+  let result = this.RESULT_SUCCESS;
+  console.log(myBuffer1);
+  //updateValueCallback sends the value to the centralModule
+  //This correctly sends the buffer to the centralModule, but I don't think this is how we will normall send data.
+  updateValueCallback(myBuffer1);
+  
   // console.log('motion maxValueSize: ' + maxValueSize);
 }
 
@@ -45,27 +45,17 @@ export const motionCharacteristic = new bleno.Characteristic({
   // uuid: 'fb4d273c-ff58-11ea-adc1-0242ac120002',
   properties: ['read', 'notify', 'subscribe'],
   // secure: []     - do we need security?
-  //value is buffer?  Where is this assigned?
-
-  // need to define ---
-  //value: null, //Buffer.alloc(1), // [ toWest, toEast, zero ] == [ -1 , 0, 1 ]
   onSubscribe: motionOnSubscribe,
-  // onNotify: motionOnNotify,
-  // onReadRequest: motionOnReadRequest,
-  // onSubscribe: (maxValueSize: any, updateValueCallback: () => any) => {
-  //   console.log('subscribed to MotionCharacteristic');
-  //   console.log('motion maxValueSize: ' + maxValueSize);
-  //   // updateValueCallback(Buffer.alloc(3, 1))
-  // },
-
   onNotify: motionOnNotify,
-
-  onReadReaquest: motionOnReadRequest
+  onReadRequest: motionOnReadRequest,
 });
+
+//Below are the iterations from when I was trying to figure out the best syntax for creating the Characteristic instance.
+
 
 // motionCharacteristic
 
-// var MotionCharacteristic = function() {
+// const MotionCharacteristic = function() {
 //   MotionCharacteristic.super_.call(this, {
 //     uuid: '0001',
 //     properties: ['read', 'subscribe', 'notify'],
@@ -80,7 +70,6 @@ export const motionCharacteristic = new bleno.Characteristic({
 //
 // }
 
-// util.inherits(MotionCharacteristic, bleno.Characteristic);
 
 // console.log(bleno.Characteristic);
 

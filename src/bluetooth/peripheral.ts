@@ -1,10 +1,8 @@
-/// <reference types="node" />
 
-var bleno = require('@abandonware/bleno');
 
-// var bleno = new Bleno();
+const bleno = require('@abandonware/bleno');
 
-//var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic.js");
+// Only require works here, not sure why. Import syntax threw errors and wouldn't build.
 
 import { motionCharacteristic } from "./peripheralCharacteristics/motionCharacteristic.js";
 
@@ -12,12 +10,12 @@ import { sensorsService } from "./services/sensorsService.js";
 
 
 //constructor, then create 'new'
-var PrimaryService = bleno.PrimaryService;
+const PrimaryService = bleno.PrimaryService;
 
 
-//var MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic");
+//const MotionCharacteristic = require("./peripheralCharacteristics/motionCharacteristic");
 
-// var motionCharacteristic = new (motionCharacteristic as any)();
+// const motionCharacteristic = new (motionCharacteristic as any)();
 
 // state = <"unknown" | "resetting" | "unsupported" | "unauthorized" | "poweredOff" | "poweredOn">
 //
@@ -42,41 +40,26 @@ var PrimaryService = bleno.PrimaryService;
 //
 // bleno.on('rssiUpdate', callback(rssi)); // not available on OS X 10.9
 
-var serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
+const serviceName = "rb-0"; //uuid- rb-0 through rb-5 for each pi
 //UUID generated from guidgenerator.com
-// unsure if we are using a pre-defined UUID or generating one ourselves
 // eventually will be in process.env?
-// var serviceUuids = ["fffffffffffffffffffffffffffffff0"];
-//define characteristics and then add to services
-// export const testService
-//export characteristics
-// const testService = new PrimaryService({
-//   uuid: 'rb00', // should get as env.var
-//   characteristics: [   
-// see Characteristic for data type
-//   ]
-// });
+
 
 //address- b8:27:eb:f6:c6:a2
 
 const serviceUUID = 'rb00';
 
-var errorCallBack = function(err: any) {
-  if(err) {
-    console.log(err);
-  }
-}
 
-var broadcastInterval: NodeJS.Timeout;
+let messageInterval: NodeJS.Timeout;
 
-function broadcast(message: String) {
-  broadcastInterval = setInterval(() => {
+function logMessageOnInterval(message: String) {
+  messageInterval = setInterval(() => {
     console.log(`${message}\n`);
   }, 10000);
 }
 
-function stopBroadcast() {
-  clearInterval(broadcastInterval);
+function stopLogging() {
+  clearInterval(messageInterval);
 }
 
 
@@ -100,7 +83,8 @@ bleno.on('stateChange', (state: String) => {
     bleno.stopAdvertising();
   }
 });
-// var testCharacteristic = new bleno.Characteristic({
+
+// const testCharacteristic = new bleno.Characteristic({
 //   uuid: 'ffff',
 //   properties: ["read", "subscribe", "notify"],
 //   // secure: []     - do we need security?
@@ -124,7 +108,7 @@ bleno.on('stateChange', (state: String) => {
 //   console.log("read request for motion sensor");
 // }
 
-// var testService = new PrimaryService({
+// const testService = new PrimaryService({
 //   uuid: serviceUUID, // should get as env.var
 //   characteristics: [
 // //    testCharacteristic,
@@ -146,7 +130,6 @@ bleno.on('servicesSetError', (error: any) => {
   console.log("ERROR SETTING SERVICE");
 })
 
-//b8:27:eb:f6:c6:a2
 
 
 bleno.on('advertisingStart', (err: any) => {
@@ -159,14 +142,13 @@ bleno.on('advertisingStart', (err: any) => {
     console.log(sensorsService.uuid);
     console.log(sensorsService);
     console.log(bleno.services);
-    // console.log(JSON.stringify(testService));
-    broadcast("advertising ");
+    logMessageOnInterval("advertising ");
   }
 })
 
 bleno.on('accept', (clientAddress: String) => {
   console.log(`clientAddress ${clientAddress} accepted`);
-  stopBroadcast();
+  stopLogging();
   console.log("accepted");
 bleno.stopAdvertising(() => { 
   console.log("stopped advertising");
