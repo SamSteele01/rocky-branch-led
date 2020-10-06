@@ -16,6 +16,6 @@ const startTime = Date.now();
 clockEmitter.on('tick', (now) => {
   // console.log('NOW', (now - startTime) / 1000);
   // console.log(pulse(now, 3000));
-  // console.log(waves(now, startTime, 3, 20, 20));
-  console.log(waves(now, startTime, 10, 40, 100));
+  console.log(waves(now, startTime, 3, 50, 50));
+  // console.log(waves(now, startTime, 10, 40, 100));
 });

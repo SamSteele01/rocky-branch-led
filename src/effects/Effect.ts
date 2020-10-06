@@ -6,17 +6,16 @@
  */
 
 import EventEmitter from 'events';
-import {
-  ISensorData,
-  IPhysicalLED,
-  ISharedArrayBuffers,
-} from '../interfaces/effects';
+import { IPhysicalLED, ISharedArrayBuffers } from '../interfaces/effects';
 
 export class Effect {
-  clockEmitter: EventEmitter.EventEmitter;
-  fixtureArray: IPhysicalLED[];
-  sharedArrayBuffers: ISharedArrayBuffers;
+  clockEmitter: EventEmitter.EventEmitter; // ?
+  fixtureArray: IPhysicalLED[]; // for searches
+  sharedArrayBuffers: ISharedArrayBuffers; // outputs
   length: number;
+
+  // motion
+  // searchResults
 
   constructor(
     clockEmitter: EventEmitter.EventEmitter,
@@ -34,6 +33,7 @@ export class Effect {
       // update state
       // fire functions
       // update sharedArrayBuffers
+      const data = pulse(300, spin(rainbowWheel(now, start), dunno));
     });
   }
 

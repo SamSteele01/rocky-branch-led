@@ -18,6 +18,7 @@ import * as funct from './functions';
 export class SpinningRainbowWheel extends Effect {
   direction: string;
   speed: number;
+  offset: number;
 
   constructor(
     clockEmitter: EventEmitter.EventEmitter,
