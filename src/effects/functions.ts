@@ -18,7 +18,7 @@ export function pulse(currentTime: number, totalTime: number = 5000): number {
   );
 }
 
-// have sin waves move up or down a strip of LEDs
+// have sine waves move up or down a strip of LEDs
 // propagationSpeed is in pixels/second and can be negative
 // waveLength is in pixels. pixels / waveLength will give the number of waves on the strip.
 // If waveLength > pixels the strip will be a 'window' that watches the waves go by.
