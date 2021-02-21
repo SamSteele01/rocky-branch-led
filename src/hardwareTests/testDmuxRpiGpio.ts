@@ -1,8 +1,22 @@
-import LedStrip from '../LEDs/LEDStrip';
-import nodeRpio, { open, OUTPUT, LOW } from 'rpio';
-// import { SPI, Mode, Order } from 'spi-node';
+import LEDStripRpiGpio from '../LEDs/LEDStripRpiGpio';
+import * as gpiop from 'rpi-gpio';
 import * as spi from 'spi-device';
 
+/* initialize gpio pins */
+// GPIO_5 = pin 29, GPIO_6 = pin 31 GPIO_12 = pin 32
+
+const pinA = 29; // GPIO 5
+const pinB = 31; // GPIO 6
+
+gpiop.setup(pinA, gpiop.DIR_OUT, (err, res) => {
+  if (err) console.log('setup pin 29 error: ', err);
+});
+
+gpiop.setup(pinB, gpiop.DIR_OUT, (err, res) => {
+  if (err) console.log('setup pin 29 error: ', err);
+});
+
+/* initialize spi instance */
 const spiInstance = spi.open(0, 0, (err) => {
   if (err) throw err;
 });
@@ -18,39 +32,26 @@ spiInstance.write = (buffer: Buffer, cb: (error: any, data: any) => void) => {
   spiInstance.transfer(message, cb);
 };
 
-/* connect SPI 0 to the demultiplexer. CS doesn't matter */
-// const spi = SPI.fromDevicePath('/dev/spidev0.0')
-//   .setMode(Mode.M0)
-//   .setOrder(Order.MSB_FIRST)
-//   .setSpeed(1e7);
-
-// initialize rpio
-// nodeRpio.init({close_on_exit: false});
-open(29, OUTPUT, LOW);
-open(31, OUTPUT, LOW);
-open(32, OUTPUT, LOW);
-
-const channels: LedStrip[] = [];
-// GPIO_5 = pin 29, GPIO_6 = pin 31 GPIO_12 = pin 32
-channels[0] = new LedStrip(spiInstance, nodeRpio, 20, {
+const channels: LEDStripRpiGpio[] = [];
+channels[0] = new LEDStripRpiGpio(spiInstance, gpiop, 20, {
   channel: 0,
-  pinA: 29,
-  pinB: 31,
+  pinA,
+  pinB,
 });
-channels[1] = new LedStrip(spiInstance, nodeRpio, 20, {
+channels[1] = new LEDStripRpiGpio(spiInstance, gpiop, 20, {
   channel: 1,
-  pinA: 29,
-  pinB: 31,
+  pinA,
+  pinB,
 });
-channels[2] = new LedStrip(spiInstance, nodeRpio, 20, {
+channels[2] = new LEDStripRpiGpio(spiInstance, gpiop, 20, {
   channel: 2,
-  pinA: 29,
-  pinB: 31,
+  pinA,
+  pinB,
 });
-channels[3] = new LedStrip(spiInstance, nodeRpio, 20, {
+channels[3] = new LEDStripRpiGpio(spiInstance, gpiop, 20, {
   channel: 3,
-  pinA: 29,
-  pinB: 31,
+  pinA,
+  pinB,
 });
 
 // create "clock" to write to each channel, staggered
@@ -87,5 +88,7 @@ const clock = createChannelClock();
 
 process.on('SIGINT', () => {
   clearInterval(clock);
-  // nodeRpio.exit();
+  gpiop.destroy((err) => {
+    if (err) console.log(err);
+  });
 });
