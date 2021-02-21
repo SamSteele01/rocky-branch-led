@@ -24,7 +24,7 @@ spiInstance.write = (buffer: Buffer, cb: (error: any, data: any) => void) => {
     {
       sendBuffer: buffer,
       byteLength: buffer.length,
-      speedHz: 1e7,
+      speedHz: 1e8,
     },
   ];
   spiInstance.transfer(message, cb);

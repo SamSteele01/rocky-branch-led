@@ -51,7 +51,7 @@ export class Dotstar {
   /**
    * Set every LED in the colorBuffer to the RGBA value.
    */
-  all(r: number, g: number, b: number, a: number = 1) {
+  all(r: number, g: number, b: number, a = 1) {
     const singleLedBuffer = this.convertRgbaToLedBuffer(r, g, b, a);
 
     for (let led = 0; led < this.length; led++) {
@@ -79,7 +79,7 @@ export class Dotstar {
   /**
    * Set a specific LED in the colorBuffer to RGBA value.
    */
-  set(led: number, r: number, g: number, b: number, a: number = 1) {
+  set(led: number, r: number, g: number, b: number, a = 1) {
     if (led < 0) {
       throw new Error(
         `led value must be a positive integer. You passed ${led}`,
@@ -110,7 +110,7 @@ export class Dotstar {
     r: number,
     g: number,
     b: number,
-    a: number = 1,
+    a = 1,
   ): Buffer {
     const brightnessValue = Math.floor(0b11111 * a) + 0b11100000;
 
@@ -127,11 +127,13 @@ export class Dotstar {
    * Wrapper around device.write which rethrows errors
    */
   private write(buffer: Buffer) {
-    console.log('BUFFER', buffer.toJSON());
+    // console.log('BUFFER', buffer.toJSON());
+    console.time('write');
     this.device.write(buffer, (error) => {
       if (error) {
         throw error;
       }
     });
+    console.timeEnd('write');
   }
 }
