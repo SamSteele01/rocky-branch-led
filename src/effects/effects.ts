@@ -1,58 +1,50 @@
-/* 
-  accept array of pixels, or length + offset, or other?
-  @return array/object of r, g, b, a values
-*/
+/*
+ * Each effect should have the args of (clockEmitter, sensorData, fixtureArray, sharedArrayBuffers[])
+ */
 
-interface Ipixel {
-  r: number // 0 - 255
-  g: number // 0 - 255
-  b: number // 0 - 255
-  a: number // 0.0 - 1.0
-}
+import EventEmitter from 'events';
+import { Effect } from './Effect';
+import {
+  ISensorData,
+  IPhysicalLED,
+  ISharedArrayBuffers,
+  DynamicObject,
+} from '../interfaces/effects';
+import * as funct from './functions';
 
-export function rainbowWheel(length: number, offset: number = 0): Array<Ipixel> {
-  let array: Ipixel[] = [];
-  
-  const step = 256 / length; // float
-  let position = 0;
-  
-  for (let i = 0; i < length; i++) {
-    if (i < length / 3) {
-      // green to red
-      position = i * step;
-      array[i] = {
-        r: Math.round(position * 3),
-        g: Math.round(255 - position * 3),
-        b: 0,
-        a: 1,
-      }
-    } else if (i < length * 2 / 3) {
-      // red to blues
-      position = (i - length / 3) * step;
-      array[i] = {
-        r: Math.round(255 - position * 3),
-        g: 0,
-        b: Math.round(position * 3),
-        a: 1,
-      }
-    } else {
-      // blue to green
-      position = (i - length * 2 / 3) * step;
-      array[i] = {
-        r: 0,
-        g: Math.round(position * 3),
-        b: Math.round(255 - position * 3),
-        a: 1,
-      }
+/* This will work with either the Infinity Mirror or the Edge Lit Glass. Either way that is 2 of the
+  four arrayBuffers.
+ */
+export class SpinningRainbowWheel extends Effect {
+  direction: string;
+  speed: number;
+  offset: number;
+
+  constructor(
+    clockEmitter: EventEmitter.EventEmitter,
+    fixtureArray: IPhysicalLED[],
+    sharedArrayBuffers: ISharedArrayBuffers,
+    medium: string, // ['infinityMirror', 'edgeLit']
+    direction: string, // clockwise (CW) or counterClockWise(CCW)
+    speed: number, // pixels per second
+  ) {
+    let arrayBuffers: DynamicObject = {};
+
+    if (medium === 'infinityMirror') {
+      arrayBuffers.infinityMirrorNE = sharedArrayBuffers.infinityMirrorNE;
+      arrayBuffers.infinityMirrorSW = sharedArrayBuffers.infinityMirrorSW;
     }
-  }
-  
-  return array.slice(offset, length).concat(array.slice(0, offset));
-}
+    if (medium === 'edgeLit') {
+      arrayBuffers.edgeLitNorth = sharedArrayBuffers.edgeLitNorth;
+      arrayBuffers.edgeLitSouth = sharedArrayBuffers.edgeLitSouth;
+    }
 
-// go from 0/off to color/on and back again in a set amount of time
-export function pulse(): Array<Ipixel> {
-  let array: Ipixel[] = [];
-  
-  return array;
+    super(clockEmitter, fixtureArray, arrayBuffers);
+    this.direction = direction;
+    this.speed = speed;
+  }
+
+  run() {
+    // override
+  }
 }
