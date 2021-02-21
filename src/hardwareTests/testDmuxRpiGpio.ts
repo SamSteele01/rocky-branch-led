@@ -17,9 +17,7 @@ gpiop.setup(pinB, gpiop.DIR_OUT, (err, res) => {
 });
 
 /* initialize spi instance */
-const spiInstance = spi.open(0, 0, (err) => {
-  if (err) throw err;
-});
+const spiInstance = spi.openSync(0, 0);
 
 spiInstance.write = (buffer: Buffer, cb: (error: any, data: any) => void) => {
   const message: spi.SpiMessage = [
@@ -60,16 +58,16 @@ function createChannelClock() {
   return setInterval(() => {
     switch (writeChannel) {
       case 0:
-        channels[writeChannel].all(0, 0, 200, 1);
+        channels[writeChannel].all(0, 0, 150, 1);
         break;
       case 1:
-        channels[writeChannel].all(0, 200, 0, 1);
+        channels[writeChannel].all(0, 150, 0, 1);
         break;
       case 2:
-        channels[writeChannel].all(200, 0, 0, 1);
+        channels[writeChannel].all(150, 0, 0, 1);
         break;
       case 3:
-        channels[writeChannel].all(150, 150, 150, 1);
+        channels[writeChannel].all(0, 0, 150, 1);
         break;
       default:
         break;
@@ -81,13 +79,28 @@ function createChannelClock() {
     } else {
       writeChannel += 1;
     }
-  }, 32);
+  }, 100);
+}
+
+async function turnOffLEDs() {
+  channels[0].off();
+  setTimeout(() => {
+    channels[1].off();
+  }, 100);
+  setTimeout(() => {
+    channels[2].off();
+  }, 200);
+  setTimeout(() => {
+    channels[3].off();
+    return;
+  }, 300);
 }
 
 const clock = createChannelClock();
 
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   clearInterval(clock);
+  await turnOffLEDs();
   gpiop.destroy((err) => {
     if (err) console.log(err);
   });

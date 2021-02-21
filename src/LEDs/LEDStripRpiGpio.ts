@@ -52,9 +52,24 @@ export default class LEDStripRpiGpio extends dotstar.Dotstar {
   sync() {
     this.rpio.write(this.pinA, this.outputA);
     this.rpio.write(this.pinB, this.outputB);
+
     console.log(`Attempting to write to channel ${this.channel}`);
     // delay 20 ns. This is to allow the demultiplexer chip to change channels.
     // NOTE: there may be other delays in the hardware to take into account.
-    super.sync();
+    setTimeout(() => {
+      super.sync();
+    }, 15);
+  }
+
+  off() {
+    this.rpio.write(this.pinA, this.outputA);
+    this.rpio.write(this.pinB, this.outputB);
+
+    console.log(`Attempting to turn off channel ${this.channel}`);
+    // delay 20 ns. This is to allow the demultiplexer chip to change channels.
+    // NOTE: there may be other delays in the hardware to take into account.
+    setTimeout(() => {
+      super.off();
+    }, 15);
   }
 }
