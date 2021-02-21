@@ -52,6 +52,7 @@ export class Dotstar {
    * Set every LED in the colorBuffer to the RGBA value.
    */
   all(r: number, g: number, b: number, a = 1) {
+    console.log('R, G, B, A', r, g, b, a);
     const singleLedBuffer = this.convertRgbaToLedBuffer(r, g, b, a);
 
     for (let led = 0; led < this.length; led++) {

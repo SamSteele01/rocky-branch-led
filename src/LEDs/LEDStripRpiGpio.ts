@@ -50,6 +50,7 @@ export default class LEDStripRpiGpio extends dotstar.Dotstar {
   /* override sync function that writes out to the MOSI */
   /* we need to do this to make sure that the instance of LEDStrip is talking to the correct LEDs */
   sync() {
+    console.log(`Attempting to write to channel ${this.channel}`);
     this.rpio.write(this.pinA, this.outputA);
     this.rpio.write(this.pinB, this.outputB, (err) => {
       if (!err) {
@@ -57,7 +58,6 @@ export default class LEDStripRpiGpio extends dotstar.Dotstar {
       }
     });
 
-    console.log(`Attempting to write to channel ${this.channel}`);
     // delay 20 ns. This is to allow the demultiplexer chip to change channels.
     // NOTE: there may be other delays in the hardware to take into account.
     // setTimeout(() => {
@@ -66,14 +66,22 @@ export default class LEDStripRpiGpio extends dotstar.Dotstar {
   }
 
   off() {
-    this.rpio.write(this.pinA, this.outputA);
-    this.rpio.write(this.pinB, this.outputB);
-
     console.log(`Attempting to turn off channel ${this.channel}`);
+    this.rpio.write(this.pinA, this.outputA);
+    this.rpio.write(this.pinB, this.outputB, (err) => {
+      super.off();
+      super.clear();
+      super.sync();
+      super.off();
+      super.sync();
+      super.sync();
+    });
+
     // delay 20 ns. This is to allow the demultiplexer chip to change channels.
     // NOTE: there may be other delays in the hardware to take into account.
-    setTimeout(() => {
-      super.off();
-    }, 32);
+    // setTimeout(() => {
+    //   super.clear();
+    //   super.sync();
+    // }, 32);
   }
 }
